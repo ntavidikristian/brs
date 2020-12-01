@@ -1,0 +1,20 @@
+<table class="table table-striped">
+    <thead>
+        <tr class="bg-dark text-white">
+            <th scope="col" (click)="updateFilter('title')">Title</th>
+            <th scope="col" (click)="updateFilter('priority')">Priority</th>
+            <th scope="col" (click)="updateFilter('reporter')">Reporter</th>
+            <th scope="col" (click)="updateFilter('createdAt')">Date Created</th>
+            <th scope="col" (click)="updateFilter('status')">Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let bug of bugs">
+            <td>{{bug.title}}</td>
+            <td>{{bug.priority}}</td>
+            <td>{{bug.reporter}}</td>
+            <td>{{bug.createdAt.substring(0,10)}}</td>
+            <td>{{bug.status}}</td>
+        </tr>
+    </tbody>
+</table>
