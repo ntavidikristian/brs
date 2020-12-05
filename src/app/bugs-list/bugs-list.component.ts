@@ -9,8 +9,8 @@ import { RestService } from '../rest.service';
 })
 export class BugsListComponent implements OnInit {
   private _bugs = [];
-  private ascending: boolean = true;
-  private filterBy = 'title';
+  private _ascending: boolean = true;
+  private _filterBy = 'title';
   
   constructor(private restService:RestService) { }
 
@@ -25,6 +25,19 @@ export class BugsListComponent implements OnInit {
     });
   }
 
+  set ascending(value){
+    this._ascending = value;
+  }
+  get ascending(){
+    return this._ascending;
+  }
+
+  set filterBy(value){
+    this._filterBy = value;
+  }
+  get filterBy(){
+    return this._filterBy;
+  }
   set bugs(value){
     this._bugs = value;
   }

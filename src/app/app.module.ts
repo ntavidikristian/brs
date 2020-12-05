@@ -6,12 +6,14 @@ import { AppComponent } from './app.component';
 import { BugsListComponent } from './bugs-list/bugs-list.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ReportBugComponent } from './report-bug/report-bug.component';
+import { NavComponent } from './nav/nav.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     BugsListComponent,
-    ReportBugComponent
+    ReportBugComponent,
+    NavComponent
   ],
   imports: [
     BrowserModule,

@@ -1,13 +1,18 @@
+<section class="container flex">
+    <h1>Bug Reporting System</h1>
+    <h2>List Of Bugs</h2>
+</section>
+
 <button class="btn btn-info" [routerLink]="['reportbug']">Add new</button>
 
 <table class="table table-striped">
     <thead>
         <tr class="bg-dark text-white">
-            <th scope="col" (click)="updateFilter('title')">Title</th>
-            <th scope="col" (click)="updateFilter('priority')">Priority</th>
-            <th scope="col" (click)="updateFilter('reporter')">Reporter</th>
-            <th scope="col" (click)="updateFilter('createdAt')">Date Created</th>
-            <th scope="col" (click)="updateFilter('status')">Status</th>
+            <th scope="col" (click)="updateFilter('title')">Title<i [hidden]="filterBy!='title'" class="fa fa-sort-up" [ngClass]="{'fa-sort-up': ascending, 'fa-sort-down': !ascending}"></i></th>
+            <th scope="col" (click)="updateFilter('priority')">Priority<i [hidden]="filterBy!='priority'" class="fa fa-sort" [ngClass]="{'fa-sort-up': ascending, 'fa-sort-down': !ascending}"></i></th>
+            <th scope="col" (click)="updateFilter('reporter')">Reporter<i [hidden]="filterBy!='reporter'" class="fa fa-sort" [ngClass]="{'fa-sort-up': ascending, 'fa-sort-down': !ascending}"></i></th>
+            <th scope="col" (click)="updateFilter('createdAt')">Date Created<i [hidden]="filterBy!='createdAt'" class="fa fa-sort"[ngClass]="{'fa-sort-up': ascending, 'fa-sort-down': !ascending}"></i></th>
+            <th scope="col" (click)="updateFilter('status')">Status<i [hidden]="filterBy!='status'" class="fa fa-sort"[ngClass]="{'fa-sort-up': ascending, 'fa-sort-down': !ascending}"></i></th>
         </tr>
     </thead>
     <tbody>
