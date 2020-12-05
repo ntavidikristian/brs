@@ -5,11 +5,13 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BugsListComponent } from './bugs-list/bugs-list.component';
 import { HttpClientModule } from '@angular/common/http';
+import { NavComponent } from './nav/nav.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    BugsListComponent
+    BugsListComponent,
+    NavComponent
   ],
   imports: [
     BrowserModule,

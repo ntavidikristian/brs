@@ -1,11 +1,11 @@
 <table class="table table-striped">
     <thead>
         <tr class="bg-dark text-white">
-            <th scope="col" (click)="updateFilter('title')">Title</th>
-            <th scope="col" (click)="updateFilter('priority')">Priority</th>
-            <th scope="col" (click)="updateFilter('reporter')">Reporter</th>
-            <th scope="col" (click)="updateFilter('createdAt')">Date Created</th>
-            <th scope="col" (click)="updateFilter('status')">Status</th>
+            <th scope="col">Title<i class="fa fa-sort" (click)="updateFilter('title')"></i></th>
+            <th scope="col">Priority<i class="fa fa-sort" (click)="updateFilter('priority')"></i></th>
+            <th scope="col">Reporter<i class="fa fa-sort" (click)="updateFilter('reporter')"></i></th>
+            <th scope="col">Date Created<i class="fa fa-sort" (click)="updateFilter('createdAt')"></i></th>
+            <th scope="col">Status<i class="fa fa-sort" (click)="updateFilter('status')"></i></th>
         </tr>
     </thead>
     <tbody>
