@@ -1,7 +1,7 @@
-<div>
+<div [hidden]="hideform">
     <h1 class="display-4 text-center mb-2">Report bug</h1>
 </div>
-<form class="mt-2" [formGroup]="reportBugForm" (submit)="onSubmit()">
+<form class="mt-2" [formGroup]="reportBugForm" (submit)="onSubmit()" [hidden]="hideform">
 
     <div class=" form-group">
         <label for="bugTitle">
@@ -54,4 +54,16 @@
         <button class="btn btn-outline-info" type="submit" [disabled]="reportBugForm.invalid">Submit</button>
     </div>
 </form>
-{{reportBugForm.value | json}}
+<div class="text-center">
+    <div [hidden]="!datasubmitted">
+        <i class="fa fa-thumbs-up text-info fa-5x"></i>
+        <h5 class="display-4">Success!!</h5>
+        <button class="btn btn-outline-info" (click)="goMainPage()">Go to mainpage</button>
+        <!-- <h5> Redirecting to mainPage</h5> -->
+    </div>
+    <div [hidden]="!dataloading">
+        <i class="loading-icon" ></i>
+        <h5 class="display-4">Submitting data</h5>
+    </div>
+</div>
+<!-- {{reportBugForm.value | json}} -->

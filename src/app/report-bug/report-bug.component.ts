@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from "@angular/forms";
+import { Router } from '@angular/router';
 import { BugInterface } from '../bug-interface';
 import { RestService } from '../rest.service';
 @Component({
@@ -10,7 +11,10 @@ import { RestService } from '../rest.service';
 export class ReportBugComponent implements OnInit {
   reportBugForm: FormGroup;
 
-  constructor(private service : RestService) { }
+  dataloading:boolean = false;
+  datasubmitted: boolean =false;
+  hideform: boolean = false;
+  constructor(private service : RestService,private router:Router) { }
 
 /*Theloume enan pinaka gia na kanoyme me ngFor taselect */
 
@@ -53,12 +57,22 @@ export class ReportBugComponent implements OnInit {
       // sendingBug.reporter = values.bugReporter;
       // sendingBug.status = values.bugStatus;
       console.log(sendingBug);
-
+      this.dataloading = true;
+      this.hideform = true;
       this.service.postBug(sendingBug).subscribe((data)=>{
         console.log(data);
+        this.dataloading = false;
+        this.datasubmitted = true;
+        // setTimeout(() => {
+        //   this.router.navigate(['']);
+        // }, 3000);
       });
     }
     
+  }
+  
+  goMainPage(){
+    this.router.navigate(['']);
   }
 
 }
