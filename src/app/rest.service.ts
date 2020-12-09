@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { BugInterface } from './bug-interface';
 @Injectable({
   providedIn: 'root'
 })
@@ -17,5 +18,10 @@ export class RestService {
     (ascending ? 'asc':'desc');
     // console.log(query);
     return this.http.get(query);
+  }
+
+
+  postBug(bug : BugInterface ): Observable<any> {    
+    return this.http.post(this.endpoint, bug);  
   }
 }
