@@ -1,43 +1,57 @@
 <div>
     <h1 class="display-4 text-center mb-2">Report bug</h1>
 </div>
-<form class="mt-2">
+<form class="mt-2" [formGroup]="reportBugForm" (submit)="onSubmit()">
 
-    <div class="form-group">
-        <label for="">
-            Title
+    <div class=" form-group">
+        <label for="bugTitle">
+            Title 
+            <span *ngIf="reportBugForm.get('bugTitle').invalid && reportBugForm.get( 'bugTitle').dirty" class="text-danger">*</span> 
         </label>
-        <input type="text" class="form-control">
+        <input type="text" class="form-control" id="bugTitle" formControlName="bugTitle">
     </div>
-    <div class="form-group">
-        <label for="">Description</label>
-        <textarea name="" id="" rows="3" class="form-control"></textarea>
+    <div class="form-group ">
+        <label for="bugDescription">
+            Description
+            <span *ngIf="reportBugForm.get( 'bugDescription').invalid && reportBugForm.get( 'bugDescription').dirty " class="text-danger ">*</span> 
+        </label>
+        <textarea name="bugDescription" id="bugDescription" rows="3" class="form-control" formControlName="bugDescription"></textarea>
     </div>
-    <div class="form-group">
-        <label for="">Priority</label>
-        <select name="" id="" class="form-control">
-            <option value="1">Minor</option>
-            <option value="2">Major</option>
-            <option value="3">Critical</option>
+    <div class="form-group ">
+        <label for="bugPriority ">
+            Priority
+            <span *ngIf="reportBugForm.get( 'bugPriority').invalid && reportBugForm.get( 'bugPriority').dirty " class="text-danger ">*</span> 
+        </label>
+        <select name="bugPriority" id="bugPriority" formControlName="bugPriority" class="form-control">
+            <option value="1 ">Minor</option>
+            <option value="2 ">Major</option>
+            <option value="3 ">Critical</option>
         </select>
     </div>
     <div class="form-group">
-        <label for="">Reporter</label>
-        <select name="" id="" class="form-control">
-            <option value="1">QA</option>
-            <option value="2">PO</option>
-            <option value="3">DEV</option>
+        <label for="bugReporter">
+            Reporter
+            <span *ngIf="reportBugForm.get( 'bugReporter').invalid && reportBugForm.get( 'bugReporter').dirty " class="text-danger ">*</span> 
+        </label>
+        <select name="bugReporter" id="bugReporter" formControlName="bugReporter" class="form-control">
+            <option value="QA">QA</option>
+            <option value="PO">PO</option>
+            <option value="DEV">DEV</option>
         </select>
     </div>
     <div class="form-group">
-        <label for="">Status</label>
-        <select name="" id="" class="form-control">
-            <option value="1">Ready for testing</option>
-            <option value="2">Done</option>
-            <option value="3">Rejected</option>
+        <label for="bugStatus">
+            Status
+            <span *ngIf="reportBugForm.get( 'bugStatus').invalid && reportBugForm.get( 'bugStatus').dirty " class="text-danger ">*</span> 
+        </label>
+        <select name="bugStatus" id="bugStatus" formControlName="bugStatus" class="form-control">
+            <option value="Ready for testing">Ready for testing</option>
+            <option value="Done">Done</option>
+            <option value="Rejected">Rejected</option>
         </select>
     </div>
     <div class="d-flex justify-content-end">
-        <button class="btn btn-outline-info" type="submit">Submit</button>
+        <button class="btn btn-outline-info" type="submit" [disabled]="reportBugForm.invalid">Submit</button>
     </div>
 </form>
+{{reportBugForm.value | json}}
