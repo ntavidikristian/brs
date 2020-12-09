@@ -1,2 +1,13 @@
 
 @import '~bootstrap/scss/bootstrap';
+@import '~font-awesome/scss/font-awesome';
+
+.loading-icon{
+    @extend .text-info;
+    @extend .fa ;
+    @extend .fa-refresh;
+    @extend .fa-spin;
+    @extend .fa-3x;
+    @extend .fa-fw;
+    @extend .text-info;
+}

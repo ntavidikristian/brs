@@ -1,21 +1,21 @@
-<section class="container flex">
+<section class="container flex text-center">
     <h1>Bug Reporting System</h1>
     <h2>List Of Bugs</h2>
 </section>
 
-<button class="btn btn-info" [routerLink]="['reportbug']">Add new</button>
+<button class="btn btn-info mb-2" [routerLink]="['reportbug']">Report <i class="fa fa-plus"></i></button>
 
 <table class="table table-striped">
     <thead>
         <tr class="bg-dark text-white">
-            <th scope="col" (click)="updateFilter('title')">Title<i [hidden]="filterBy!='title'" class="fa fa-sort-up" [ngClass]="{'fa-sort-up': ascending, 'fa-sort-down': !ascending}"></i></th>
-            <th scope="col" (click)="updateFilter('priority')">Priority<i [hidden]="filterBy!='priority'" class="fa fa-sort" [ngClass]="{'fa-sort-up': ascending, 'fa-sort-down': !ascending}"></i></th>
-            <th scope="col" (click)="updateFilter('reporter')">Reporter<i [hidden]="filterBy!='reporter'" class="fa fa-sort" [ngClass]="{'fa-sort-up': ascending, 'fa-sort-down': !ascending}"></i></th>
-            <th scope="col" (click)="updateFilter('createdAt')">Date Created<i [hidden]="filterBy!='createdAt'" class="fa fa-sort"[ngClass]="{'fa-sort-up': ascending, 'fa-sort-down': !ascending}"></i></th>
-            <th scope="col" (click)="updateFilter('status')">Status<i [hidden]="filterBy!='status'" class="fa fa-sort"[ngClass]="{'fa-sort-up': ascending, 'fa-sort-down': !ascending}"></i></th>
+            <th scope="col" (click)="updateFilter(filters.title)">Title<i [hidden]="filterBy!='title'" class="fa fa-sort-up" [ngClass]="{'fa-sort-up': ascending, 'fa-sort-down': !ascending}"></i></th>
+            <th scope="col" (click)="updateFilter(filters.priority)">Priority<i [hidden]="filterBy!='priority'" class="fa fa-sort" [ngClass]="{'fa-sort-up': ascending, 'fa-sort-down': !ascending}"></i></th>
+            <th scope="col" (click)="updateFilter(filters.reporter)">Reporter<i [hidden]="filterBy!='reporter'" class="fa fa-sort" [ngClass]="{'fa-sort-up': ascending, 'fa-sort-down': !ascending}"></i></th>
+            <th scope="col" (click)="updateFilter(filters.createdAt)">Date Created<i [hidden]="filterBy!='createdAt'" class="fa fa-sort"[ngClass]="{'fa-sort-up': ascending, 'fa-sort-down': !ascending}"></i></th>
+            <th scope="col" (click)="updateFilter(filters.status)">Status<i [hidden]="filterBy!='status'" class="fa fa-sort"[ngClass]="{'fa-sort-up': ascending, 'fa-sort-down': !ascending}"></i></th>
         </tr>
     </thead>
-    <tbody>
+    <tbody [hidden]="tableLoading">
         <tr *ngFor="let bug of bugs">
             <td>{{bug.title}}</td>
             <td>{{bug.priority}}</td>
@@ -25,3 +25,6 @@
         </tr>
     </tbody>
 </table>
+<div class="d-flex justify-content-center">
+    <i class="loading-icon" [hidden]="!tableLoading"></i>
+</div>

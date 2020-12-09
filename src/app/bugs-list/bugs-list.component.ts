@@ -2,6 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { Button } from 'protractor';
 import { RestService } from '../rest.service';
 
+
+
+
+
+
+
 @Component({
   selector: 'app-bugs-list',
   templateUrl: './bugs-list.component.html',
@@ -11,6 +17,15 @@ export class BugsListComponent implements OnInit {
   private _bugs = [];
   private _ascending: boolean = true;
   private _filterBy = 'title';
+  private _filters = {
+    title:'title',
+    priority: 'priority',
+    reporter: 'reporter',
+    createdAt: 'createdAt',
+    status: 'status'
+  };
+
+  tableLoading = false;
   
   constructor(private restService:RestService) { }
 
@@ -18,10 +33,15 @@ export class BugsListComponent implements OnInit {
     this.getAllBugs();
   }
 
+  get filters(){
+    return this._filters;
+  }
   getAllBugs(){
+    this.tableLoading = true;
     this.restService.getAllBugs(this.filterBy, this.ascending).subscribe((bugs)=>{
       console.log(bugs);
       this.bugs = bugs;
+      this.tableLoading = false;
     });
   }
 
