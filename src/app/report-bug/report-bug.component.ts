@@ -53,6 +53,7 @@ export class ReportBugComponent implements OnInit {
       // sendingBug.reporter = values.bugReporter;
       // sendingBug.status = values.bugStatus;
       console.log(sendingBug);
+
       this.service.postBug(sendingBug).subscribe((data)=>{
         console.log(data);
       });
