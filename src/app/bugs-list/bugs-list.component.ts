@@ -15,8 +15,7 @@ import { RestService } from '../rest.service';
 })
 export class BugsListComponent implements OnInit {
   private _bugs = [];
-  private _ascending: boolean = true;
-  private _filterBy = 'title';
+  private _ascending: boolean = false;
   private _filters = {
     title:'title',
     priority: 'priority',
@@ -24,6 +23,7 @@ export class BugsListComponent implements OnInit {
     createdAt: 'createdAt',
     status: 'status'
   };
+  private _filterBy = this.filters.createdAt;
 
   tableLoading = false;
   
