@@ -15,7 +15,7 @@
             <th scope="col" (click)="updateFilter(filters.status)">Status<i [hidden]="filterBy!='status'" class="fa fa-sort"[ngClass]="{'fa-sort-up': ascending, 'fa-sort-down': !ascending}"></i></th>
         </tr>
     </thead>
-    <tbody [hidden]="tableLoading">
+    <tbody [class.tbody-show]="!tableLoading">
         <tr *ngFor="let bug of bugs">
             <td>{{bug.title}}</td>
             <td>{{bug.priority}}</td>

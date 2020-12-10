@@ -25,7 +25,7 @@ export class BugsListComponent implements OnInit {
   };
   private _filterBy = this.filters.createdAt;
 
-  tableLoading = false;
+  tableLoading = true;
   
   constructor(private restService:RestService) { }
 

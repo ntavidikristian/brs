@@ -1,6 +1,6 @@
 table {
-    box-shadow: 0 0 9px 4px #d0cbcb;
     thead{
+        box-shadow: 0 -1px 9px 4px #d0cbcb;
         th {
             cursor: pointer;
             min-width: 145px !important;
@@ -12,4 +12,22 @@ table {
             }
         }
     }
+    
+    tbody{
+        box-shadow: 0 10px 9px 4px #d0cbcb;
+        transform: scale(1,0);
+        transform-origin: center top;
+        transition-property: transform;
+        transition-duration: 300ms;
+        transition-timing-function: ease-in;
+        transition-delay: 50ms;
+        &.tbody-show{
+            transition-property: transform;
+            transition-duration: 300ms;
+            transition-timing-function: ease-in;
+            transition-delay: 50ms;
+            transform: scale(1,1);
+        }
+    }
+    
 }
