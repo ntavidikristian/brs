@@ -38,6 +38,8 @@ export class BugsListComponent implements OnInit {
   }
   getAllBugs(){
     this.tableLoading = true;
+    //empty the table of bugs we have //for ui pruposes
+    this.bugs = [];
     this.restService.getAllBugs(this.filterBy, this.ascending).subscribe((bugs)=>{
       console.log(bugs);
       this.bugs = bugs;

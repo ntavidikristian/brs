@@ -16,16 +16,16 @@ table {
     tbody{
         box-shadow: 0 10px 9px 4px #d0cbcb;
         transform: scale(1,0);
-        transform-origin: center top;
-        transition-property: transform;
-        transition-duration: 300ms;
-        transition-timing-function: ease-in;
-        transition-delay: 50ms;
+        // transition-property: transform;
+        // transition-duration: 300ms;
+        // transition-timing-function: ease-in;
+        // transition-delay: 50ms;
         &.tbody-show{
+            transform-origin: center top;
             transition-property: transform;
-            transition-duration: 300ms;
+            transition-duration: 200ms;
             transition-timing-function: ease-in;
-            transition-delay: 50ms;
+            // transition-delay: 50ms;
             transform: scale(1,1);
         }
     }
