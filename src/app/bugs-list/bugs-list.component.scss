@@ -1,6 +1,6 @@
 table {
     box-shadow: 0 0 9px 4px #d0cbcb;
-    thead{
+    thead {
         th {
             cursor: pointer;
             min-width: 145px !important;
@@ -11,5 +11,9 @@ table {
                 margin-left: 10px;
             }
         }
+    }
+    td {
+        max-width: 300px;
+        word-wrap: break-word !important;
     }
 }

@@ -24,4 +24,15 @@ export class RestService {
   postBug(bug : BugInterface ): Observable<any> {    
     return this.http.post(this.endpoint, bug);  
   }
+
+  getBugById(bugid : string): Observable<any>{
+    let query = this.endpoint + "/" + bugid;
+    // console.log(query);
+    return this.http.get(query); 
+  }
+
+  updateBug(bug : BugInterface ): Observable<any>{
+    let query = this.endpoint + "/" + bug.id;
+    return this.http.put(query, bug);  
+  }
 }

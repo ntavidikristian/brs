@@ -39,7 +39,7 @@ export class BugsListComponent implements OnInit {
   getAllBugs(){
     this.tableLoading = true;
     this.restService.getAllBugs(this.filterBy, this.ascending).subscribe((bugs)=>{
-      console.log(bugs);
+      // console.log(bugs);
       this.bugs = bugs;
       this.tableLoading = false;
     });

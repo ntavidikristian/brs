@@ -5,7 +5,8 @@ import { ReportBugComponent } from './report-bug/report-bug.component';
 
 const routes: Routes = [
   {path:'reportbug', component:ReportBugComponent},
-  {path:'', component:BugsListComponent}
+  {path:'', component:BugsListComponent},
+  {path:'reportbug/:id', component:ReportBugComponent}
 ];
 
 @NgModule({
