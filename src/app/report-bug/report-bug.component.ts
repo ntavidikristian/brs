@@ -16,16 +16,18 @@ export class ReportBugComponent implements OnInit {
   hideform: boolean = false;
   constructor(private service : RestService,private router:Router) { }
 
-/*Theloume enan pinaka gia na kanoyme me ngFor taselect */
-
+/*Theloume enan pinaka gia na kanoyme me ngFor ta select */
+  // priorityValues = ['Minor', 'Major', 'Crirical'];
+  reporterValues = ['QA', 'PO', 'DEV'];
+  statusValues = ['Ready for testing', 'Done', 'Rejected'];
 
   ngOnInit(): void {
     this.reportBugForm = new FormGroup({
       bugTitle: new FormControl("",[Validators.required]),
       bugDescription: new FormControl("",[Validators.required]),
-      bugPriority: new FormControl("",[Validators.required]),
-      bugReporter: new FormControl("",[Validators.required]),
-      bugStatus: new FormControl("")
+      bugPriority: new FormControl(null,[Validators.required]),
+      bugReporter: new FormControl(null,[Validators.required]),
+      bugStatus: new FormControl(null)
     });
     this.reportBugForm.get("bugReporter").statusChanges.subscribe((value) => {
       console.log(value);

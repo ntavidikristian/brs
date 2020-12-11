@@ -8,14 +8,14 @@
             Title 
             <span *ngIf="reportBugForm.get('bugTitle').invalid && reportBugForm.get( 'bugTitle').dirty" class="text-danger">*</span> 
         </label>
-        <input type="text" class="form-control" id="bugTitle" formControlName="bugTitle">
+        <input type="text" class="form-control" id="bugTitle" formControlName="bugTitle" placeholder="Enter Title">
     </div>
     <div class="form-group ">
         <label for="bugDescription">
             Description
             <span *ngIf="reportBugForm.get( 'bugDescription').invalid && reportBugForm.get( 'bugDescription').dirty " class="text-danger ">*</span> 
         </label>
-        <textarea name="bugDescription" id="bugDescription" rows="3" class="form-control" formControlName="bugDescription"></textarea>
+        <textarea name="bugDescription" id="bugDescription" rows="3" class="form-control" formControlName="bugDescription" placeholder="Enter Description"></textarea>
     </div>
     <div class="form-group ">
         <label for="bugPriority ">
@@ -23,6 +23,10 @@
             <span *ngIf="reportBugForm.get( 'bugPriority').invalid && reportBugForm.get( 'bugPriority').dirty " class="text-danger ">*</span> 
         </label>
         <select name="bugPriority" id="bugPriority" formControlName="bugPriority" class="form-control">
+            <!-- <option *ngFor="let pr of priority" [value]="pr">
+                {​​{​​pr}​​}​​
+            </option> -->
+            <option value="null" disabled>Select an option</option>
             <option value="1 ">Minor</option>
             <option value="2 ">Major</option>
             <option value="3 ">Critical</option>
@@ -34,9 +38,13 @@
             <span *ngIf="reportBugForm.get( 'bugReporter').invalid && reportBugForm.get( 'bugReporter').dirty " class="text-danger ">*</span> 
         </label>
         <select name="bugReporter" id="bugReporter" formControlName="bugReporter" class="form-control">
-            <option value="QA">QA</option>
+            <option [ngValue]="null" disabled>Select an option</option>
+            <option *ngFor="let repVal of reporterValues" [value]="repVal">
+                {{repVal}}
+            </option>
+            <!-- <option value="QA">QA</option>
             <option value="PO">PO</option>
-            <option value="DEV">DEV</option>
+            <option value="DEV">DEV</option> -->
         </select>
     </div>
     <div class="form-group">
@@ -45,9 +53,13 @@
             <span *ngIf="reportBugForm.get( 'bugStatus').invalid && reportBugForm.get( 'bugStatus').dirty " class="text-danger ">*</span> 
         </label>
         <select name="bugStatus" id="bugStatus" formControlName="bugStatus" class="form-control">
-            <option value="Ready for testing">Ready for testing</option>
+            <option value="null" disabled>Select an option</option>
+            <option *ngFor="let staVal of statusValues" [value]="staVal">
+                {{staVal}}
+            </option>
+            <!-- <option value="Ready for testing">Ready for testing</option>
             <option value="Done">Done</option>
-            <option value="Rejected">Rejected</option>
+            <option value="Rejected">Rejected</option> -->
         </select>
     </div>
     <div class="d-flex justify-content-end">
@@ -62,7 +74,7 @@
         <!-- <h5> Redirecting to mainPage</h5> -->
     </div>
     <div [hidden]="!dataloading">
-        <i class="loading-icon" ></i>
+        <i class="loading-icon"></i>
         <h5 class="display-4">Submitting data</h5>
     </div>
 </div>
