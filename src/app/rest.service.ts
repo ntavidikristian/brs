@@ -35,4 +35,9 @@ export class RestService {
     let query = this.endpoint + "/" + bug.id;
     return this.http.put(query, bug);  
   }
+
+  deleteBug(bugid : string): Observable<any>{
+    let query = this.endpoint + "/" + bugid;
+    return this.http.delete(query);  
+  }
 }

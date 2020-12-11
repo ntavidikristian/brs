@@ -28,7 +28,7 @@
                 <button class="btn btn-outline-warning" [routerLink]="['reportbug',bug.id]">Edit</button>
             </td>
             <td>
-                <button class="btn btn-outline-danger">Delete</button>
+                <button class="btn btn-outline-danger" (click)="deleteRowBug(bug.id)">Delete</button>
             </td>
         </tr>
     </tbody>

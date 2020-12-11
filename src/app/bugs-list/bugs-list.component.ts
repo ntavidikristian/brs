@@ -2,17 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { Button } from 'protractor';
 import { RestService } from '../rest.service';
 
-
-
-
-
-
-
 @Component({
   selector: 'app-bugs-list',
   templateUrl: './bugs-list.component.html',
   styleUrls: ['./bugs-list.component.scss']
 })
+
 export class BugsListComponent implements OnInit {
   private _bugs = [];
   private _ascending: boolean = false;
@@ -36,6 +31,7 @@ export class BugsListComponent implements OnInit {
   get filters(){
     return this._filters;
   }
+  
   getAllBugs(){
     this.tableLoading = true;
     this.restService.getAllBugs(this.filterBy, this.ascending).subscribe((bugs)=>{
@@ -73,6 +69,12 @@ export class BugsListComponent implements OnInit {
 
     //get data form api
     this.getAllBugs();
+  }
+
+  deleteRowBug(bugID: string){
+    this.restService.deleteBug(bugID).subscribe((item)=>{
+      this.getAllBugs();
+    });
   }
 
 }
