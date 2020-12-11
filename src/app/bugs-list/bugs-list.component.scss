@@ -1,8 +1,15 @@
-table{
-    th{
-        cursor: pointer;
-        &:hover{
-            color:#519db0;
+table {
+    box-shadow: 0 0 9px 4px #d0cbcb;
+    thead{
+        th {
+            cursor: pointer;
+            min-width: 145px !important;
+            &:hover {
+                color: #519db0;
+            }
+            .fa {
+                margin-left: 10px;
+            }
         }
-    }  
+    }
 }
