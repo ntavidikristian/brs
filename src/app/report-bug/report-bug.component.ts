@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from "@angular/forms";
+import { FormGroup, FormControl, Validators, FormArray } from "@angular/forms";
 import { ActivatedRoute, Router } from '@angular/router';
 import { BugInterface } from '../bug-interface';
 import { RestService } from '../rest.service';
@@ -25,7 +25,23 @@ export class ReportBugComponent implements OnInit {
     bugDescription: new FormControl("",[Validators.required]),
     bugPriority: new FormControl(null,[Validators.required]),
     bugReporter: new FormControl(null,[Validators.required]),
-    bugStatus: new FormControl(null)
+    bugStatus: new FormControl(null),
+    bugComments: new FormArray([
+    //   new FormGroup({
+    //     reporter: new FormControl("John Kalimeris"),
+    //     description: new FormControl("Kalimera sas")
+    //   }),
+    //   new FormGroup({
+    //     reporter: new FormControl("Thanasis Kalimers"),
+    //     description: new FormControl("Axxx kurie mano")
+    //   })
+    // 
+    ])
+  });
+
+  commentFormGroup: FormGroup = new FormGroup({
+    reporter: new FormControl("Kalimeris"),
+    description: new FormControl("Axx krie mano")
   });
   
   isUpdateForm: boolean = false;
@@ -46,6 +62,21 @@ export class ReportBugComponent implements OnInit {
           this.reportBugForm.get("bugStatus").setValue(requestedbug.status);
           this.isUpdateForm = true;
           this.bugId = requestedbug.id;
+          console.log(requestedbug.comments);
+
+          let my_array = this.reportBugForm.get('bugComments') as FormArray;
+
+          if(requestedbug.comments){
+            for(let comment of requestedbug.comments){
+              let control = new FormGroup({
+                reporter: new FormControl(comment.reporter),
+                description: new FormControl( comment.description)
+              });
+              my_array.push(control);
+            }
+          }
+          console.log(my_array);
+
           // console.log(requestedbug);
         });
       }
@@ -108,6 +139,10 @@ export class ReportBugComponent implements OnInit {
   
   goMainPage(){
     this.router.navigate(['']);
+  }
+
+  appendComment(){
+    alert("hi");
   }
 
 
