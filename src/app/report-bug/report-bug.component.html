@@ -73,15 +73,22 @@
                 <div class="card mb-2">
                     <div class="card-body bg-light">
                         <div class="form-group">
-                            <label>Name</label>
+                            <label>Name
+                                <span *ngIf="commentFormGroup.get('reporter').invalid && commentFormGroup.get( 'reporter').dirty" class="text-danger">*</span> 
+                            </label>
+
                             <input type="text" formControlName="reporter" class="form-control">
                         </div>
                         <div class="form-group">
-                            <label>Description</label>
+                            <label>Description
+                                <span *ngIf="commentFormGroup.get( 'description').invalid && commentFormGroup.get( 'description').dirty" class="text-danger">*</span> 
+                            </label>
                             <textarea row="3" class="form-control" formControlName="description"></textarea>
                         </div>
                         <div class="d-flex justify-content-end">
-                            <i class="fa fa-plus fa-2x" (click)="appendComment()"></i>
+                            <button type="button" class="btn" (click)="appendComment()" [disabled]="commentFormGroup.invalid">
+                                <i class="fa fa-plus fa-2x"></i>
+                            </button>
                         </div>
                     </div>
                 </div>

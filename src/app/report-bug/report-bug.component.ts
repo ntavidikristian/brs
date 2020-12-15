@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators, FormArray } from "@angular/forms";
+import { FormGroup, FormControl, Validators, FormArray, FormGroupDirective } from "@angular/forms";
 import { ActivatedRoute, Router } from '@angular/router';
 import { BugInterface } from '../bug-interface';
 import { RestService } from '../rest.service';
@@ -29,21 +29,21 @@ export class ReportBugComponent implements OnInit {
     bugReporter: new FormControl(null,[Validators.required]),
     bugStatus: new FormControl(null),
     bugComments: new FormArray([
-    //   new FormGroup({
-    //     reporter: new FormControl("John Kalimeris"),
-    //     description: new FormControl("Kalimera sas")
-    //   }),
-    //   new FormGroup({
-    //     reporter: new FormControl("Thanasis Kalimers"),
-    //     description: new FormControl("Axxx kurie mano")
-    //   })
-    // 
+      // new FormGroup({
+      //   reporter: new FormControl("John Kalimeris"),
+      //   description: new FormControl("Kalimera sas")
+      // }),
+      // new FormGroup({
+      //   reporter: new FormControl("Thanasis Kalimers"),
+      //   description: new FormControl("Axxx kurie mano")
+      // })
+    
     ])
   });
 
   commentFormGroup: FormGroup = new FormGroup({
-    reporter: new FormControl("Kalimeris"),
-    description: new FormControl("Axx krie mano")
+    reporter: new FormControl("",[Validators.required]),
+    description: new FormControl("", [Validators.required])
   });
   
   isUpdateForm: boolean = false;
@@ -100,34 +100,28 @@ export class ReportBugComponent implements OnInit {
     if(!this.reportBugForm.valid){
       console.log('invalid');
     }else{
-      console.log(this.reportBugForm);
-      let values = this.reportBugForm.value;
-      let sendingBug: BugInterface ={
-        title : values.bugTitle,
-        description : values.bugDescription,
-        priority : values.bugPriority,
-        reporter : values.bugReporter,
-        status : values.bugStatus
-      };
-      // sendingBug.title = values.bugTitle;
-      // sendingBug.description = values.bugDescription;
-      // sendingBug.priority = values.bugPriority;
-      // sendingBug.reporter = values.bugReporter;
-      // sendingBug.status = values.bugStatus;
-      // console.log(sendingBug);
+      //console.log(this.reportBugForm);
+      // let values = this.reportBugForm.value;
+      // let sendingBug: BugInterface ={
+      //   title : values.bugTitle,
+      //   description : values.bugDescription,
+      //   priority : values.bugPriority,
+      //   reporter : values.bugReporter,
+      //   status : values.bugStatus
+      // };
 
       this.dataloading = true;
       this.hideform = true;
       if(this.isUpdateForm){
-        sendingBug.id = this.bugId;
-        this.service.updateBug(sendingBug).subscribe((data)=>{
+        // sendingBug.id = this.bugId;
+        this.service.updateBug(this.generateBug()).subscribe((data)=>{
           console.log(data);
           this.dataloading = false;
           this.datasubmitted = true;
         });
 
       }else{
-        this.service.postBug(sendingBug).subscribe((data)=>{
+        this.service.postBug(this.generateBug()).subscribe((data)=>{
           console.log(data);
           this.dataloading = false;
           this.datasubmitted = true;
@@ -136,9 +130,24 @@ export class ReportBugComponent implements OnInit {
           // }, 3000);
         });
       }
-      
     }
     
+  }
+
+  generateBug(): BugInterface{
+
+    let values = this.reportBugForm.value;
+    let bug: BugInterface ={
+      id: this.bugId,
+      title : values.bugTitle,
+      description : values.bugDescription,
+      priority : values.bugPriority,
+      reporter : values.bugReporter,
+      status : values.bugStatus,
+      comments: values.bugComments
+    };
+    // console.log(bug);
+    return bug;
   }
   
   goMainPage(){
@@ -146,7 +155,35 @@ export class ReportBugComponent implements OnInit {
   }
 
   appendComment(){
-    alert("hi");
+    console.log(this.commentFormGroup);
+    
+
+    let comments = this.reportBugForm.get('bugComments') as FormArray;
+
+
+    //create new formgroup to push to comments
+    let to_push = new FormGroup({
+      reporter: new FormControl(this.commentFormGroup.get('reporter').value),
+      description: new FormControl(this.commentFormGroup.get('description').value)
+    });
+    comments.push(to_push);
+
+
+
+
+    //empty commeformgroup
+
+    this.commentFormGroup.get('reporter').reset();
+    this.commentFormGroup.get('description').reset();
+    
+    //update the server
+
+    let bug =this.generateBug();
+
+    this.service.updateBug(bug).subscribe((data)=>{
+      alert("server updated");
+    });
+
   }
 
 
