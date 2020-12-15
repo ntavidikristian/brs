@@ -1,6 +1,9 @@
+import { HttpHeaders } from '@angular/common/http';
+import { AttrAst } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
 import { Button } from 'protractor';
 import { BugInterface } from '../bug-interface';
+import { QueryParams } from '../query-params';
 import { RestService } from '../rest.service';
 
 @Component({
@@ -22,6 +25,8 @@ export class BugsListComponent implements OnInit {
   private _filterBy = this.filters.createdAt;
 
   tableLoading = false;
+  currentPage = 0;
+  totalPages:number = 1;
   
   constructor(private restService:RestService) { }
 
@@ -35,11 +40,40 @@ export class BugsListComponent implements OnInit {
   
   getAllBugs(){
     this.tableLoading = true;
-    this.restService.getAllBugs(this.filterBy, this.ascending).subscribe((bugs)=>{
-      // console.log(bugs);
-      this.bugs = bugs;
+
+    let filter = this.filterBy+','+ (this.ascending? 'asc': 'desc') ;
+    console.log(filter);
+    console.log(this.filterBy);
+    //CREATE object query parameters 
+
+    let attrs:QueryParams = {
+      sort:filter,
+      page:this.currentPage
+
+    };
+
+    this.restService.getAllBugs( attrs).subscribe((response)=>{
+      let headers = response.headers as HttpHeaders;
+
+      // console.log(headers.get('Totalpages'));
+      this.totalPages = Number.parseInt(headers.get('Totalpages'));
+      console.log(this.totalPages);
+      this.bugs = response.body;
       this.tableLoading = false;
     });
+  }
+
+  previousPage(){
+    if (this.currentPage == 0) return;
+    this.currentPage --;
+    this.getAllBugs();
+  }
+
+  nextPage(){
+    console.log(this.totalPages);
+    if ( !(this.currentPage< this.totalPages)) return;
+    this.currentPage ++;
+    this.getAllBugs();
   }
 
   set ascending(value){

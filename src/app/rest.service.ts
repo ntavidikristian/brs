@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpResponse} from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { BugInterface } from './bug-interface';
+import { QueryParams } from './query-params';
 @Injectable({
   providedIn: 'root'
 })
@@ -12,12 +13,21 @@ export class RestService {
   private endpoint = "https://bug-report-system-server.herokuapp.com/bugs";
   constructor(private http:HttpClient) { }
 
-  getAllBugs(filterBy, ascending):Observable<BugInterface[]>{
+  getQueryparamsString(attrs){
+    let query = "";
+    return Object.keys(attrs).map((key)=>{
+      return key+"="+attrs[key];
+    }).join('&');
+  }
 
-    let query = this.endpoint + '?sort='+filterBy+","+ 
-    (ascending ? 'asc':'desc');
+  getAllBugs(attrs):Observable<any>{
+
+    // let query = this.endpoint + '?sort='+filterBy+","+ 
+    // (ascending ? 'asc':'desc');
+    let query = this.endpoint + '?'+this.getQueryparamsString(attrs);
     // console.log(query);
-    return this.http.get<BugInterface[]>(query);
+    console.log(attrs);
+    return this.http.get<any>(query, {observe:'response'});
   }
 
 
