@@ -3,6 +3,8 @@ import { FormGroup, FormControl, Validators, FormArray } from "@angular/forms";
 import { ActivatedRoute, Router } from '@angular/router';
 import { BugInterface } from '../bug-interface';
 import { RestService } from '../rest.service';
+import { Comment } from "../comment";
+
 @Component({
   selector: 'app-report-bug',
   templateUrl: './report-bug.component.html',
@@ -93,6 +95,7 @@ export class ReportBugComponent implements OnInit {
     });
   }
 
+
   onSubmit(){
     if(!this.reportBugForm.valid){
       console.log('invalid');
@@ -112,6 +115,7 @@ export class ReportBugComponent implements OnInit {
       // sendingBug.reporter = values.bugReporter;
       // sendingBug.status = values.bugStatus;
       // console.log(sendingBug);
+
       this.dataloading = true;
       this.hideform = true;
       if(this.isUpdateForm){

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Button } from 'protractor';
+import { BugInterface } from '../bug-interface';
 import { RestService } from '../rest.service';
 
 @Component({
@@ -9,7 +10,7 @@ import { RestService } from '../rest.service';
 })
 
 export class BugsListComponent implements OnInit {
-  private _bugs = [];
+  private _bugs : Array<BugInterface>= [];
   private _ascending: boolean = false;
   private _filters = {
     title:'title',
@@ -54,7 +55,7 @@ export class BugsListComponent implements OnInit {
   get filterBy(){
     return this._filterBy;
   }
-  set bugs(value){
+  set bugs(value:Array<BugInterface>){
     this._bugs = value;
   }
   get bugs(){

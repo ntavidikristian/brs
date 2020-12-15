@@ -12,28 +12,28 @@ export class RestService {
   private endpoint = "https://bug-report-system-server.herokuapp.com/bugs";
   constructor(private http:HttpClient) { }
 
-  getAllBugs(filterBy, ascending):Observable<any>{
+  getAllBugs(filterBy, ascending):Observable<BugInterface[]>{
 
     let query = this.endpoint + '?sort='+filterBy+","+ 
     (ascending ? 'asc':'desc');
     // console.log(query);
-    return this.http.get(query);
+    return this.http.get<BugInterface[]>(query);
   }
 
 
-  postBug(bug : BugInterface ): Observable<any> {    
-    return this.http.post(this.endpoint, bug);  
+  postBug(bug : BugInterface ): Observable<BugInterface> {    
+    return this.http.post<BugInterface>(this.endpoint, bug);  
   }
 
-  getBugById(bugid : string): Observable<any>{
+  getBugById(bugid : string): Observable<BugInterface>{
     let query = this.endpoint + "/" + bugid;
     // console.log(query);
-    return this.http.get(query); 
+    return this.http.get<BugInterface>(query); 
   }
 
-  updateBug(bug : BugInterface ): Observable<any>{
+  updateBug(bug : BugInterface ): Observable<BugInterface>{
     let query = this.endpoint + "/" + bug.id;
-    return this.http.put(query, bug);  
+    return this.http.put<BugInterface>(query, bug);  
   }
 
   deleteBug(bugid : string): Observable<any>{
