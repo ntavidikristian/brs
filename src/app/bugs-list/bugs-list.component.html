@@ -7,6 +7,28 @@
 
 <table class="table table-striped">
     <thead>
+        <tr>
+            <th><input class="form-control" type="text"></th>
+            <th>
+                <select name="" class="form-control">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                </select>
+            </th>
+            <th>
+                <select name="" id="" class="form-control">
+                    <option [value]="reporter" *ngFor="let reporter of reporterValues">
+                        {{reporter}}
+                    </option>
+                </select>
+            </th>
+            <th><input class="form-control" type="text"></th>
+            <th><input class="form-control" type="text"></th>
+            <th></th>
+            <th><button class="btn btn-outline-info">Search</button></th>
+            
+        </tr>
         <tr class="bg-dark text-white">
             <th scope="col" (click)="updateFilter(filters.title)">Title<i [hidden]="filterBy!='title'" class="fa fa-sort-up" [ngClass]="{'fa-sort-up': ascending, 'fa-sort-down': !ascending}"></i></th>
             <th scope="col" (click)="updateFilter(filters.priority)">Priority<i [hidden]="filterBy!='priority'" class="fa fa-sort" [ngClass]="{'fa-sort-up': ascending, 'fa-sort-down': !ascending}"></i></th>

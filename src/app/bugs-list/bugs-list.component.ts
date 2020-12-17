@@ -1,10 +1,12 @@
 import { HttpHeaders } from '@angular/common/http';
 import { AttrAst } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
+import { realpath } from 'fs';
 import { Button } from 'protractor';
 import { BugInterface } from '../bug-interface';
 import { QueryParams } from '../query-params';
 import { RestService } from '../rest.service';
+import {ReportBugComponent} from '../report-bug/report-bug.component';
 
 @Component({
   selector: 'app-bugs-list',
@@ -22,10 +24,11 @@ export class BugsListComponent implements OnInit {
     createdAt: 'createdAt',
     status: 'status'
   };
+  reporterValues = ['QA', 'PO', 'DEV'];
   private _filterBy = this.filters.createdAt;
 
   tableLoading = false;
-  currentPage = 0;
+  currentPage = 0;//TODO PREPEI NA TO DOUME
   totalPages:number = 1;
   
   constructor(private restService:RestService) { }
@@ -38,12 +41,22 @@ export class BugsListComponent implements OnInit {
     return this._filters;
   }
   
+
+
+  getQueryParams(): QueryParams{
+    let filter = this.filterBy+','+ (this.ascending? 'asc': 'desc') ;
+     return {
+        sort: filter
+     };
+  };
+
+
   getAllBugs(){
     this.tableLoading = true;
 
     let filter = this.filterBy+','+ (this.ascending? 'asc': 'desc') ;
-    console.log(filter);
-    console.log(this.filterBy);
+    // console.log(filter);
+    // console.log(this.filterBy);
     //CREATE object query parameters 
 
     let attrs:QueryParams = {
@@ -52,11 +65,14 @@ export class BugsListComponent implements OnInit {
 
     };
 
-    this.restService.getAllBugs( attrs).subscribe((response)=>{
+
+
+    this.restService.getAllBugs(attrs).subscribe((response)=>{
       let headers = response.headers as HttpHeaders;
 
       // console.log(headers.get('Totalpages'));
       this.totalPages = Number.parseInt(headers.get('Totalpages'));
+      this.currentPage = Number.parseInt(headers.get('Page'));
       console.log(this.totalPages);
       this.bugs = response.body;
       this.tableLoading = false;
@@ -64,14 +80,14 @@ export class BugsListComponent implements OnInit {
   }
 
   previousPage(){
-    if (this.currentPage == 0) return;
+    if (this.currentPage <= 0) return;
     this.currentPage --;
     this.getAllBugs();
   }
 
   nextPage(){
     console.log(this.totalPages);
-    if ( !(this.currentPage< this.totalPages)) return;
+    if ( !(this.currentPage< this.totalPages) || this.totalPages == 1) return;
     this.currentPage ++;
     this.getAllBugs();
   }
