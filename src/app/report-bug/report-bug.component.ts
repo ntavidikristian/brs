@@ -41,6 +41,8 @@ export class ReportBugComponent implements OnInit {
     ])
   });
 
+  private _initialForm = this.reportBugForm.value;
+
   commentFormGroup: FormGroup = new FormGroup({
     reporter: new FormControl("",[Validators.required]),
     description: new FormControl("", [Validators.required])
@@ -64,7 +66,13 @@ export class ReportBugComponent implements OnInit {
           this.reportBugForm.get("bugStatus").setValue(requestedbug.status);
           this.isUpdateForm = true;
           this.bugId = requestedbug.id;
-          console.log(requestedbug.comments);
+          //console.log(requestedbug.comments);
+          
+          this._initialForm.bugTitle = requestedbug.title;
+          this._initialForm.bugDescription = requestedbug.description;
+          this._initialForm.bugPriority = requestedbug.priority;
+          this._initialForm.bugReporter = requestedbug.reporter;
+          this._initialForm.bugStatus = requestedbug.status;
 
           let my_array = this.reportBugForm.get('bugComments') as FormArray;
 
@@ -169,9 +177,7 @@ export class ReportBugComponent implements OnInit {
     comments.push(to_push);
 
 
-
-
-    //empty commeformgroup
+    //empty commentformgroup
 
     this.commentFormGroup.get('reporter').reset();
     this.commentFormGroup.get('description').reset();
@@ -185,7 +191,23 @@ export class ReportBugComponent implements OnInit {
     });
 
   }
+  
+  leavePage(){
+    // console.log(this._initialForm);
+    // console.log(this.reportBugForm.value);
+    if (this.compare(this._initialForm, this.reportBugForm.value)) return true;
+    return window.confirm("Your changes haven't been submitted. Are you sure, you want to leave the page?");
+  }
 
+
+  compare(initial, bugform) {
+    if (initial.bugTitle != bugform.bugTitle) return false;
+    if (initial.bugDescription != bugform.bugDescription) return false;
+    if (initial.bugPriority != bugform.bugPriority) return false;
+    if (initial.bugReporter != bugform.bugReporter) return false;
+    if (initial.bugStatus != bugform.bugStatus) return false;
+    return true;      
+  }
 
 }
 

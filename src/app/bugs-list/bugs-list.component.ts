@@ -96,7 +96,7 @@ export class BugsListComponent implements OnInit {
       // console.log(headers.get('Totalpages'));
       this.totalPages = Number.parseInt(headers.get('Totalpages'));
       this.currentPage = Number.parseInt(headers.get('Page'));
-      console.log(this.totalPages);
+      //console.log(this.totalPages);
       this.bugs = response.body;
       this.tableLoading = false;
     });
@@ -109,8 +109,8 @@ export class BugsListComponent implements OnInit {
   }
 
   nextPage() {
-    console.log(this.totalPages);
-    if (!(this.currentPage < this.totalPages) || this.totalPages == 1) return;
+    //console.log(this.totalPages);
+    if (!(this.currentPage + 1 < this.totalPages) || this.totalPages == 1) return;
     this.currentPage++;
     this.getAllBugs();
   }
