@@ -195,7 +195,9 @@ export class ReportBugComponent implements OnInit {
   leavePage(){
     // console.log(this._initialForm);
     // console.log(this.reportBugForm.value);
+    if((this.commentFormGroup.get('reporter').value.length > 0) || (this.commentFormGroup.get('description').value.length > 0)) return window.confirm("You haven't submit your comment");
     if (this.compare(this._initialForm, this.reportBugForm.value)) return true;
+    //console.log(this.commentFormGroup.get('reporter').value.length);
     return window.confirm("Your changes haven't been submitted. Are you sure, you want to leave the page?");
   }
 
