@@ -6,7 +6,9 @@ import { Button } from 'protractor';
 import { BugInterface } from '../bug-interface';
 import { QueryParams } from '../query-params';
 import { RestService } from '../rest.service';
-import {ReportBugComponent} from '../report-bug/report-bug.component';
+import { ReportBugComponent } from '../report-bug/report-bug.component';
+import { FormControl, FormGroup } from '@angular/forms';
+import { ɵTestingCompiler } from '@angular/core/testing';
 
 @Component({
   selector: 'app-bugs-list',
@@ -15,59 +17,72 @@ import {ReportBugComponent} from '../report-bug/report-bug.component';
 })
 
 export class BugsListComponent implements OnInit {
-  private _bugs : Array<BugInterface>= [];
+  private _bugs: Array<BugInterface> = [];
   private _ascending: boolean = false;
   private _filters = {
-    title:'title',
+    title: 'title',
     priority: 'priority',
     reporter: 'reporter',
     createdAt: 'createdAt',
     status: 'status'
   };
   reporterValues = ['QA', 'PO', 'DEV'];
+  statusValues = ['Ready for Testing', 'Done', 'Rejected'];
   private _filterBy = this.filters.createdAt;
 
   tableLoading = false;
   currentPage = 0;//TODO PREPEI NA TO DOUME
-  totalPages:number = 1;
-  
-  constructor(private restService:RestService) { }
+  totalPages: number = 1;
+
+  searchForm: FormGroup = new FormGroup({
+    searchTitle: new FormControl(""),
+    searchPriority: new FormControl(""),
+    searchReporter: new FormControl(""),
+    searchStatus: new FormControl("")
+  })
+
+
+  constructor(private restService: RestService) { }
 
   ngOnInit(): void {
     this.getAllBugs();
   }
 
-  get filters(){
+  get filters() {
     return this._filters;
   }
-  
+
+  testSubmit() {
+    console.log(this.searchForm);
+  }
 
 
-  getQueryParams(): QueryParams{
-    let filter = this.filterBy+','+ (this.ascending? 'asc': 'desc') ;
-     return {
-        sort: filter
-     };
+
+  getQueryParams(): QueryParams {
+    let filter = this.filterBy + ',' + (this.ascending ? 'asc' : 'desc');
+    return {
+      sort: filter
+    };
   };
 
 
-  getAllBugs(){
+  getAllBugs() {
     this.tableLoading = true;
 
-    let filter = this.filterBy+','+ (this.ascending? 'asc': 'desc') ;
+    let filter = this.filterBy + ',' + (this.ascending ? 'asc' : 'desc');
     // console.log(filter);
     // console.log(this.filterBy);
     //CREATE object query parameters 
 
-    let attrs:QueryParams = {
-      sort:filter,
-      page:this.currentPage
+    let attrs: QueryParams = {
+      sort: filter,
+      page: this.currentPage
 
     };
 
 
 
-    this.restService.getAllBugs(attrs).subscribe((response)=>{
+    this.restService.getAllBugs(attrs).subscribe((response) => {
       let headers = response.headers as HttpHeaders;
 
       // console.log(headers.get('Totalpages'));
@@ -79,40 +94,40 @@ export class BugsListComponent implements OnInit {
     });
   }
 
-  previousPage(){
+  previousPage() {
     if (this.currentPage <= 0) return;
-    this.currentPage --;
+    this.currentPage--;
     this.getAllBugs();
   }
 
-  nextPage(){
+  nextPage() {
     console.log(this.totalPages);
-    if ( !(this.currentPage< this.totalPages) || this.totalPages == 1) return;
-    this.currentPage ++;
+    if (!(this.currentPage < this.totalPages) || this.totalPages == 1) return;
+    this.currentPage++;
     this.getAllBugs();
   }
 
-  set ascending(value){
+  set ascending(value) {
     this._ascending = value;
   }
-  get ascending(){
+  get ascending() {
     return this._ascending;
   }
 
-  set filterBy(value){
+  set filterBy(value) {
     this._filterBy = value;
   }
-  get filterBy(){
+  get filterBy() {
     return this._filterBy;
   }
-  set bugs(value:Array<BugInterface>){
+  set bugs(value: Array<BugInterface>) {
     this._bugs = value;
   }
-  get bugs(){
+  get bugs() {
     return this._bugs;
   }
-  updateFilter(filterValue){
-    if(this.filterBy == filterValue){
+  updateFilter(filterValue) {
+    if (this.filterBy == filterValue) {
       //toggling the ascending value
       this.ascending = !this.ascending;
     }
@@ -122,8 +137,8 @@ export class BugsListComponent implements OnInit {
     this.getAllBugs();
   }
 
-  deleteRowBug(bugID: string){
-    this.restService.deleteBug(bugID).subscribe((item)=>{
+  deleteRowBug(bugID: string) {
+    this.restService.deleteBug(bugID).subscribe((item) => {
       this.getAllBugs();
     });
   }
