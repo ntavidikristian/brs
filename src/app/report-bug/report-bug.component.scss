@@ -1,5 +1,13 @@
-form{
+form {
     box-shadow: 0 0 9px 4px #d0cbcb;
     padding: 2em;
     border-radius: 1em;
+    max-height: 700px;
+    .row.bug-comments-row {
+        flex-direction: column !important;
+        flex-wrap: nowrap;
+        overflow-y: scroll;
+        max-height: 263px;
+        padding: 11px;
+    }
 }

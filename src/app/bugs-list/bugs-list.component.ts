@@ -35,10 +35,10 @@ export class BugsListComponent implements OnInit {
   totalPages: number = 1;
 
   searchForm: FormGroup = new FormGroup({
-    searchTitle: new FormControl(""),
-    searchPriority: new FormControl(""),
-    searchReporter: new FormControl(""),
-    searchStatus: new FormControl("")
+    searchTitle: new FormControl(),
+    searchPriority: new FormControl(null),
+    searchReporter: new FormControl(null),
+    searchStatus: new FormControl(null)
   })
 
 
@@ -52,17 +52,30 @@ export class BugsListComponent implements OnInit {
     return this._filters;
   }
 
-  testSubmit() {
-    console.log(this.searchForm);
+  searchSubmit() {
+    let searchParams = this.getQueryParams();
+
+    this.tableLoading = true;
+
+    this.restService.getAllBugs(searchParams).subscribe(search=>{
+      this.bugs = search.body;
+      this.totalPages = search.headers.get('Totalpages');
+      this.currentPage = 0;
+
+      this.tableLoading = false;
+    })
+    
   }
-
-
 
   getQueryParams(): QueryParams {
     let filter = this.filterBy + ',' + (this.ascending ? 'asc' : 'desc');
-    return {
-      sort: filter
-    };
+
+    let searchParams: QueryParams = { sort: filter };
+    searchParams.priority = this.searchForm.get("searchPriority").value ?? "";
+    searchParams.reporter = this.searchForm.get("searchReporter").value ?? "";
+    searchParams.title = this.searchForm.get("searchTitle").value ?? "";
+    searchParams.status = this.searchForm.get("searchStatus").value ?? "";
+    return searchParams;
   };
 
 
@@ -74,13 +87,8 @@ export class BugsListComponent implements OnInit {
     // console.log(this.filterBy);
     //CREATE object query parameters 
 
-    let attrs: QueryParams = {
-      sort: filter,
-      page: this.currentPage
-
-    };
-
-
+    let attrs: QueryParams = this.getQueryParams();
+    attrs.page = this.currentPage;
 
     this.restService.getAllBugs(attrs).subscribe((response) => {
       let headers = response.headers as HttpHeaders;

@@ -26,7 +26,7 @@ export class RestService {
     // (ascending ? 'asc':'desc');
     let query = this.endpoint + '?'+this.getQueryparamsString(attrs);
     // console.log(query);
-    console.log(attrs);
+    console.log(query);
     return this.http.get<any>(query, {observe:'response'});
   }
 
