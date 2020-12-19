@@ -85,7 +85,7 @@ export class ReportBugComponent implements OnInit {
               my_array.push(control);
             }
           }
-          console.log(my_array);
+          //console.log(my_array);
 
           // console.log(requestedbug);
         });
@@ -93,7 +93,7 @@ export class ReportBugComponent implements OnInit {
     });
 
     this.reportBugForm.get("bugReporter").statusChanges.subscribe((value) => {
-      console.log(value);
+      //console.log(value);
       if(this.reportBugForm.get("bugReporter").value == 'QA'){
         this.reportBugForm.get("bugStatus").setValidators(Validators.required)
       }else{
@@ -106,7 +106,7 @@ export class ReportBugComponent implements OnInit {
 
   onSubmit(){
     if(!this.reportBugForm.valid){
-      console.log('invalid');
+      //console.log('invalid');
     }else{
       //console.log(this.reportBugForm);
       // let values = this.reportBugForm.value;
@@ -123,14 +123,14 @@ export class ReportBugComponent implements OnInit {
       if(this.isUpdateForm){
         // sendingBug.id = this.bugId;
         this.service.updateBug(this.generateBug()).subscribe((data)=>{
-          console.log(data);
+          //console.log(data);
           this.dataloading = false;
           this.datasubmitted = true;
         });
 
       }else{
         this.service.postBug(this.generateBug()).subscribe((data)=>{
-          console.log(data);
+          //console.log(data);
           this.dataloading = false;
           this.datasubmitted = true;
           // setTimeout(() => {
@@ -163,7 +163,7 @@ export class ReportBugComponent implements OnInit {
   }
 
   appendComment(){
-    console.log(this.commentFormGroup);
+    //console.log(this.commentFormGroup);
     
 
     let comments = this.reportBugForm.get('bugComments') as FormArray;
