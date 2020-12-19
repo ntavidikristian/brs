@@ -3,112 +3,102 @@
     <h2>List Of Bugs</h2>
 </section>
 
-<button class="btn btn-info mb-2" [routerLink]="['reportbug']">Report <i class="fa fa-plus"></i></button>
+<section class="container">
+    <button class="btn btn-info mb-2 add-report" [routerLink]="['reportbug']"><span>Report <i class="fa fa-plus"></i></span></button>
+    <div class="search-form mb-4">
+        <form [formGroup]="searchForm" (submit)="searchSubmit()">
+            <table class="table table-striped">
+                <tr>
+                    <th>
+                        <input class="form-control" type="text" formControlName="searchTitle" placeholder="Title Search">
+                    </th>
+                    <th>
+                        <select name="" class="form-control" formControlName="searchPriority">
+                            <option value="null">Priority Search</option>   
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                        </select>
+                    </th>
+                    <th>
+                        <select name="" id="" class="form-control" formControlName="searchReporter">
+                            <option value="null">Reporter Search</option>   
+                            <option [value]="reporter" *ngFor="let reporter of reporterValues">
+                                {{reporter}}
+                            </option>
+                        </select>
+                    </th>
+                    <th>
+                        <select name="" id="" class="form-control" formControlName="searchStatus">
+                            <option value="null">Status Search</option>   
+                            <option [value]="status" *ngFor="let status of statusValues">
+                                {{status}}
+                            </option>
+                        </select>
+                    </th>
+                    <th>
+                        <input type="reset" class="btn btn-outline-info" value="Reset">
+                    </th>
+                    <th>
+                        <button type="submit" class="btn btn-outline-info">Search</button>
+                    </th>
+                </tr>
+            </table>
+        </form>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr class="bg-dark text-white">
+                    <th (click)="updateFilter(filters.title)">Title<i [hidden]="filterBy!='title'" class="fa fa-sort-up" [ngClass]="{'fa-sort-up': ascending, 'fa-sort-down': !ascending}"></i></th>
+                    <th (click)="updateFilter(filters.priority)">Priority<i [hidden]="filterBy!='priority'" class="fa fa-sort" [ngClass]="{'fa-sort-up': ascending, 'fa-sort-down': !ascending}"></i></th>
+                    <th (click)="updateFilter(filters.reporter)">Reporter<i [hidden]="filterBy!='reporter'" class="fa fa-sort" [ngClass]="{'fa-sort-up': ascending, 'fa-sort-down': !ascending}"></i></th>
+                    <th (click)="updateFilter(filters.createdAt)">Date Created<i [hidden]="filterBy!='createdAt'" class="fa fa-sort" [ngClass]="{'fa-sort-up': ascending, 'fa-sort-down': !ascending}"></i></th>
+                    <th (click)="updateFilter(filters.status)">Status<i [hidden]="filterBy!='status'" class="fa fa-sort" [ngClass]="{'fa-sort-up': ascending, 'fa-sort-down': !ascending}"></i></th>
+                    <th class="button-col"></th>
+                    <th class="button-col"></th>
+                </tr>
+            </thead>
+            <tbody [hidden]="tableLoading">
+                <tr *ngFor="let bug of bugs">
+                    <td>{{bug.title}}</td>
+                    <td>{{bug.priority}}</td>
+                    <td>{{bug.reporter}}</td>
+                    <td>{{bug.createdAt | date:'short'}}</td>
+                    <td>{{bug.status}}</td>
+                    <td>
+                        <button class="btn btn-outline-warning" [routerLink]="['reportbug',bug.id]">Edit</button>
+                    </td>
+                    <td>
+                        <button class="btn btn-outline-danger" (click)="deleteRowBug(bug.id)">Delete</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="page-navigation">
+        <nav *ngIf="!tableLoading" aria-label="Page navigation example">
+            <ul class="pagination">
+                <li class="page-item" (click)="previousPage()">
+                    <a class="page-link" href="#" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span><span class="sr-only">Previous</span></a>
+                </li>
 
-<div class="form-outline mb-4">
-    <form [formGroup]="searchForm" (submit)="searchSubmit()">
-        <div class="form-group">
-            <input class="form-control" type="text" formControlName="searchTitle" placeholder="Title Search">
-        </div>
-        <div class="form-group">
-            <select name="" class="form-control" formControlName="searchPriority">
-                <option value="null">Priority Search</option>   
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <select name="" id="" class="form-control" formControlName="searchReporter">
-                <option value="null">Reporter Search</option>   
-                <option [value]="reporter" *ngFor="let reporter of reporterValues">
-                    {{reporter}}
-                </option>
-            </select>
-        </div>
-        <div class="form-group">
-            <select name="" id="" class="form-control" formControlName="searchStatus">
-                <option value="null">Status Search</option>   
-                <option [value]="status" *ngFor="let status of statusValues">
-                    {{status}}
-                </option>
-            </select>
-        </div>
-        <div class="form-group">
-            <input type="reset" class="btn btn-outline-info" value="Reset">
-        </div>
-        <div class="form-group">
-            <button type="submit" class="btn btn-outline-info">Search</button>
-        </div>
-    </form>
-</div>
-<table class="table table-striped">
-    <thead>
-        <!-- <tr>
-            <th><input class="form-control" type="text"></th>
-            <th>
-                <select name="" class="form-control">
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                </select>
-            </th>
-            <th>
-                <select name="" id="" class="form-control">
-                    <option [value]="reporter" *ngFor="let reporter of reporterValues">
-                        {{reporter}}
-                    </option>
-                </select>
-            </th>
-            <th><input class="form-control" type="text"></th>
-            <th><input class="form-control" type="text"></th>
-            <th><input type="reset" class="btn btn-outline-info" value="Reset"></th>
-            <th><button class="btn btn-outline-info">Search</button></th>
+                <li class="page-item active">
+                    <span class="page-link">{{currentPage + 1}}</span>
+                </li>
 
-        </tr> -->
-        <tr class="bg-dark text-white">
-            <th scope="col" (click)="updateFilter(filters.title)">Title<i [hidden]="filterBy!='title'" class="fa fa-sort-up" [ngClass]="{'fa-sort-up': ascending, 'fa-sort-down': !ascending}"></i></th>
-            <th scope="col" (click)="updateFilter(filters.priority)">Priority<i [hidden]="filterBy!='priority'" class="fa fa-sort" [ngClass]="{'fa-sort-up': ascending, 'fa-sort-down': !ascending}"></i></th>
-            <th scope="col" (click)="updateFilter(filters.reporter)">Reporter<i [hidden]="filterBy!='reporter'" class="fa fa-sort" [ngClass]="{'fa-sort-up': ascending, 'fa-sort-down': !ascending}"></i></th>
-            <th scope="col" (click)="updateFilter(filters.createdAt)">Date Created<i [hidden]="filterBy!='createdAt'" class="fa fa-sort" [ngClass]="{'fa-sort-up': ascending, 'fa-sort-down': !ascending}"></i></th>
-            <th scope="col" (click)="updateFilter(filters.status)">Status<i [hidden]="filterBy!='status'" class="fa fa-sort" [ngClass]="{'fa-sort-up': ascending, 'fa-sort-down': !ascending}"></i></th>
-            <th scope="col"></th>
-            <th scope="col"></th>
-        </tr>
-    </thead>
-    <tbody [hidden]="tableLoading">
-        <tr *ngFor="let bug of bugs">
-            <td>{{bug.title}}</td>
-            <td>{{bug.priority}}</td>
-            <td>{{bug.reporter}}</td>
-            <td>{{bug.createdAt | date:'short'}}</td>
-            <td>{{bug.status}}</td>
-            <td>
-                <button class="btn btn-outline-warning" [routerLink]="['reportbug',bug.id]">Edit</button>
-            </td>
-            <td>
-                <button class="btn btn-outline-danger" (click)="deleteRowBug(bug.id)">Delete</button>
-            </td>
-        </tr>
-    </tbody>
-</table>
-<nav *ngIf = "!tableLoading" aria-label="Page navigation example">
-    <ul class="pagination">
-        <li class="page-item" (click)="previousPage()">
-            <a class="page-link" href="#" aria-label="Previous">
-                <span aria-hidden="true">&laquo;</span><span class="sr-only">Previous</span></a>
-        </li>
+                <li class="page-item" (click)="nextPage()">
+                    <a class="page-link" href="#" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span><span class="sr-only">Next</span></a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</section>
 
-        <li class = "page-item active">
-            <span class="page-link">{{currentPage + 1}}</span> 
-        </li>
 
-        <li class="page-item" (click)="nextPage()">
-            <a class="page-link" href="#" aria-label="Next">
-                <span aria-hidden="true">&raquo;</span><span class="sr-only">Next</span></a>
-        </li>
-    </ul>
-</nav>
+
 <div class="d-flex justify-content-center">
     <i class="loading-icon" [hidden]="!tableLoading"></i>
 </div>

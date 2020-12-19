@@ -1,15 +1,17 @@
 table {
-    box-shadow: 0 0 9px 4px #d0cbcb;
     thead {
         th {
             cursor: pointer;
-            min-width: 145px !important;
+            min-width: 100px !important;
             &:hover {
                 color: #519db0;
             }
             .fa {
                 margin-left: 10px;
             }
+        }
+        .button-col {
+            width: 100px !important;
         }
     }
     td {
@@ -18,10 +20,64 @@ table {
     }
 }
 
-.form-outline {
-    form {
-        display: inline-flex;
-        flex-direction: row;
-        justify-content: space-around !important;
+.container {
+    .table-responsive {
+        box-shadow: 0px -1px 10px 8px #00000029;
     }
+    .search-form {
+        background: #519db0;
+        margin-bottom: -17px !important;
+        z-index: 4;
+        position: relative;
+    }
+    .page-navigation {
+        margin-top: 0;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        .pagination {
+            box-shadow: 8px 4px 10px -1px #00000029;
+        }
+    }
+}
+
+.add-report {
+    text-align: center;
+    cursor: pointer;
+    text-transform: uppercase;
+    outline: none;
+    overflow: hidden;
+    position: relative;
+    color: #fff;
+    padding: 10px 22px;
+    margin: 0 auto;
+    background-color: #51b07e;
+    border: none;
+    span {
+        position: relative;
+        z-index: 1;
+    }
+    &:after {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 490%;
+        width: 190%;
+        background: #36383969;
+        transition: all 0.5s ease-in-out;
+        transform: translateX(-98%) translateY(-25%) rotate(45deg);
+    }
+    &:hover {
+        &:after {
+            -webkit-transform: translateX(-9%) translateY(-25%) rotate(45deg);
+            transform: translateX(-9%) translateY(-25%) rotate(45deg);
+        }
+    }
+}
+
+.form-outline {
+    display: inline-flex;
+    flex-direction: row;
+    justify-content: space-around !important;
 }
