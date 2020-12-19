@@ -25,10 +25,14 @@ table {
         box-shadow: 0px -1px 10px 8px #00000029;
     }
     .search-form {
-        background: #519db0;
-        margin-bottom: -17px !important;
+        background: #343a40;
+        border-bottom: 2px solid #919191;
+        margin-bottom: -1px !important;
         z-index: 4;
         position: relative;
+        table {
+            margin-bottom: 0 !important;
+        }
     }
     .page-navigation {
         margin-top: 0;
@@ -41,17 +45,18 @@ table {
     }
 }
 
-.add-report {
+.add-report,
+.btn-clear,
+.btn-search,
+.btn-warning,
+.btn-danger {
     text-align: center;
     cursor: pointer;
     text-transform: uppercase;
     outline: none;
     overflow: hidden;
     position: relative;
-    color: #fff;
-    padding: 10px 22px;
     margin: 0 auto;
-    background-color: #51b07e;
     border: none;
     span {
         position: relative;
@@ -62,8 +67,6 @@ table {
         position: absolute;
         left: 0;
         top: 0;
-        height: 490%;
-        width: 190%;
         background: #36383969;
         transition: all 0.5s ease-in-out;
         transform: translateX(-98%) translateY(-25%) rotate(45deg);
@@ -76,8 +79,61 @@ table {
     }
 }
 
+.btn-clear {
+    background: #a9a9a9;
+    color: #ffffff;
+    &:after {
+        height: 373%;
+        width: 288%;
+    }
+}
+
+.add-report {
+    background-color: #51b07e;
+    color: #fff;
+    padding: 10px 22px;
+    &:after {
+        height: 490%;
+        width: 190%;
+    }
+}
+
+.btn-search {
+    background-color: #51b07e;
+    color: #fff;
+    &:after {
+        height: 373%;
+        width: 248%;
+    }
+}
+
+.btn-warning {
+    background: #ff9649cf;
+    color: #fff;
+    &:after {
+        height: 306%;
+        width: 315%;
+    }
+}
+
+.btn-danger {
+    color: #fff;
+    background-color: #e55f6c;
+    &:after {
+        height: 306%;
+        width: 233%;
+    }
+}
+
 .form-outline {
     display: inline-flex;
     flex-direction: row;
     justify-content: space-around !important;
+}
+
+.page-item.active .page-link {
+    z-index: 3;
+    color: #fff;
+    background-color: #519db0;
+    border-color: #519db0;
 }

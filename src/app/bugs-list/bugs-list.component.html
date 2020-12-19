@@ -37,10 +37,10 @@
                         </select>
                     </th>
                     <th>
-                        <input type="reset" class="btn btn-outline-info" value="Reset">
+                        <button type="reset" class="btn btn-clear"><span>Clear</span></button>
                     </th>
                     <th>
-                        <button type="submit" class="btn btn-outline-info">Search</button>
+                        <button type="submit" class="btn btn-search"><span>Search</span></button>
                     </th>
                 </tr>
             </table>
@@ -67,10 +67,10 @@
                     <td>{{bug.createdAt | date:'short'}}</td>
                     <td>{{bug.status}}</td>
                     <td>
-                        <button class="btn btn-outline-warning" [routerLink]="['reportbug',bug.id]">Edit</button>
+                        <button class="btn btn-warning" [routerLink]="['reportbug',bug.id]"><span>Edit</span></button>
                     </td>
                     <td>
-                        <button class="btn btn-outline-danger" (click)="deleteRowBug(bug.id)">Delete</button>
+                        <button class="btn btn-danger" (click)="deleteRowBug(bug.id)"><span>Delete</span></button>
                     </td>
                 </tr>
             </tbody>
