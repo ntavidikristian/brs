@@ -55,8 +55,8 @@
                     <span *ngIf="reportBugForm.get( 'bugStatus').invalid && reportBugForm.get( 'bugStatus').dirty" class="text-danger">*</span> 
                 </label>
                 <select name="bugStatus" id="bugStatus" formControlName="bugStatus" class="form-control">
-                    <option value="null" disabled>Select an option</option>
-                    <option *ngFor="let staVal of statusValues" [value]="staVal">
+                    <option value="null"[disabled]="reportBugForm.get('bugReporter').value == 'QA'">Select an option</option>
+                    <option *ngFor="let staVal of statusValues " [value]="staVal">
                         {{staVal}}
                     </option>
                     <!-- <option value="Ready for testing ">Ready for testing</option>
@@ -88,16 +88,15 @@
                     </div>
                     <div class="d-flex justify-content-end">
                         <button type="button" class="btn" (click)="appendComment()" [disabled]="commentFormGroup.invalid">
-                                <i class="fa fa-plus fa-2x"></i>
+                                <i class="btn fa fa-plus fa-2x"></i>
                             </button>
                     </div>
                 </div>
             </div>
-
             <hr>
             <!-- Show previous comments -->
             <div class="row bug-comments-row">
-                <div class="card mb-2" *ngFor="let comment of reportBugForm.get('bugComments').controls" [formGroup]="comment">
+                <div class="card mb-2" *ngFor="let comment of reportBugForm.get('bugComments').controls?.reverse()" [formGroup]="comment">
                     <div class="card-body bg-light">
                         <div class="form-group">
                             <label>Name</label>
@@ -111,6 +110,7 @@
                 </div>
             </div>
         </div>
+    </div>
     </div>
 </form>
 

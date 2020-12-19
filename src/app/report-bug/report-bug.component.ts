@@ -44,8 +44,9 @@ export class ReportBugComponent implements OnInit {
   private _initialForm = this.reportBugForm.value;
 
   commentFormGroup: FormGroup = new FormGroup({
-    reporter: new FormControl("", [Validators.required]),
-    description: new FormControl("", [Validators.required])
+    reporter: new FormControl(null, [Validators.required]),
+    description: new FormControl(null, [Validators.required])
+
   });
 
   isUpdateForm: boolean = false;
@@ -93,9 +94,9 @@ export class ReportBugComponent implements OnInit {
     });
 
     this.reportBugForm.get("bugReporter").statusChanges.subscribe((value) => {
-      console.log(value);
+      //console.log(value);
       if (this.reportBugForm.get("bugReporter").value == 'QA') {
-        this.reportBugForm.get("bugStatus").setValidators(Validators.required)
+        this.reportBugForm.get("bugStatus").setValidators(Validators.required);
       } else {
         this.reportBugForm.get("bugStatus").clearValidators();
       }
@@ -195,7 +196,9 @@ export class ReportBugComponent implements OnInit {
   leavePage() {
     // console.log(this._initialForm);
     // console.log(this.reportBugForm.value);
-    if ((this.commentFormGroup.get('reporter').value.length > 0) || (this.commentFormGroup.get('description').value.length > 0)) return window.confirm("You haven't submit your comment");
+    console.log(this.commentFormGroup.get('reporter'));
+    console.log(this.commentFormGroup.get('description'));
+    if ((this.commentFormGroup.get('reporter').value?.length > 0) || (this.commentFormGroup.get('description').value?.length > 0)) return window.confirm("You haven't submit your comment");
     if (this.compare(this._initialForm, this.reportBugForm.value)) return true;
     //console.log(this.commentFormGroup.get('reporter').value.length);
     return window.confirm("Your changes haven't been submitted. Are you sure, you want to leave the page?");
