@@ -17,3 +17,11 @@ table {
         word-wrap: break-word !important;
     }
 }
+
+.form-outline {
+    form {
+        display: inline-flex;
+        flex-direction: row;
+        justify-content: space-around !important;
+    }
+}

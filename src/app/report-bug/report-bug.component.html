@@ -2,71 +2,117 @@
     <h1 class="display-4 text-center mb-2">Report bug</h1>
 </div>
 <form class="mt-2" [formGroup]="reportBugForm" (submit)="onSubmit()" [hidden]="hideform">
+        <div class="row">
+            <div class="col">
+                <div class=" form-group">
+                    <label for="bugTitle ">
+                    Title 
+                    <span *ngIf="reportBugForm.get( 'bugTitle').invalid && reportBugForm.get( 'bugTitle').dirty " class="text-danger">*</span> 
+                </label>
+                    <input type="text" class="form-control" id="bugTitle" formControlName="bugTitle" placeholder="Enter Title">
+                </div>
+                <div class="form-group">
+                    <label for="bugDescription">
+                    Description
+                    <span *ngIf="reportBugForm.get( 'bugDescription').invalid && reportBugForm.get( 'bugDescription').dirty" class="text-danger">*</span> 
+                </label>
+                    <textarea name="bugDescription" id="bugDescription" rows="3" class="form-control" formControlName="bugDescription" placeholder="Enter Description"></textarea>
+                </div>
+                <div class="form-group ">
+                    <label for="bugPriority ">
+                    Priority
+                    <span *ngIf="reportBugForm.get( 'bugPriority').invalid && reportBugForm.get( 'bugPriority').dirty" class="text-danger">*</span> 
+                </label>
+                    <select name="bugPriority" id="bugPriority" formControlName="bugPriority" class="form-control">
+                    <!-- <option *ngFor="let pr of priority " [value]="pr ">
+                        {​​{​​pr}​​}​​
+                    </option> -->
+                    <option value="null" disabled>Select an option</option>
+                    <option value="1">Minor</option>
+                    <option value="2">Major</option>
+                    <option value="3">Critical</option>
+                </select>
+                </div>
+                <div class="form-group ">
+                    <label for="bugReporter">
+                    Reporter
+                    <span *ngIf="reportBugForm.get( 'bugReporter').invalid && reportBugForm.get( 'bugReporter').dirty" class="text-danger">*</span> 
+                </label>
+                    <select name="bugReporter" id="bugReporter" formControlName="bugReporter" class="form-control">
+                    <option [ngValue]="null" disabled>Select an option</option>
+                    <option *ngFor="let repVal of reporterValues" [value]="repVal">
+                        {{repVal}}
+                    </option>
+                    <!-- <option value="QA ">QA</option>
+                    <option value="PO ">PO</option>
+                    <option value="DEV ">DEV</option> -->
+                </select>
+                </div>
+                <div class="form-group">
+                    <label for="bugStatus">
+                    Status
+                    <span *ngIf="reportBugForm.get( 'bugStatus').invalid && reportBugForm.get( 'bugStatus').dirty" class="text-danger">*</span> 
+                </label>
+                    <select name="bugStatus" id="bugStatus" formControlName="bugStatus" class="form-control">
+                    <option value="null " disabled>Select an option</option>
+                    <option *ngFor="let staVal of statusValues " [value]="staVal">
+                        {{staVal}}
+                    </option>
+                    <!-- <option value="Ready for testing ">Ready for testing</option>
+                    <option value="Done ">Done</option>
+                    <option value="Rejected ">Rejected</option> -->
+                </select>
+                </div>
+                <div class="d-flex justify-content-end">
+                    <button class="btn btn-outline-info" type="submit" *ngIf="!isUpdateForm" [disabled]="reportBugForm.invalid">Submit</button>
+                    <button class="btn btn-outline-warning" type="submit" *ngIf="isUpdateForm" [disabled]="reportBugForm.invalid">Update</button>
+                </div>
+            </div>
+            <!-- add new Comment -->
+            <div class="col" *ngIf="isUpdateForm" style="border-radius: 2em; padding: 2em;"[formGroup]="commentFormGroup">
+                <div class="card mb-2">
+                    <div class="card-body bg-light">
+                        <div class="form-group">
+                            <label>Name
+                                <span *ngIf="commentFormGroup.get('reporter').invalid && commentFormGroup.get( 'reporter').dirty" class="text-danger">*</span> 
+                            </label>
 
-    <div class=" form-group">
-        <label for="bugTitle">
-            Title 
-            <span *ngIf="reportBugForm.get('bugTitle').invalid && reportBugForm.get( 'bugTitle').dirty" class="text-danger">*</span> 
-        </label>
-        <input type="text" class="form-control" id="bugTitle" formControlName="bugTitle" placeholder="Enter Title">
-    </div>
-    <div class="form-group ">
-        <label for="bugDescription">
-            Description
-            <span *ngIf="reportBugForm.get( 'bugDescription').invalid && reportBugForm.get( 'bugDescription').dirty " class="text-danger ">*</span> 
-        </label>
-        <textarea name="bugDescription" id="bugDescription" rows="3" class="form-control" formControlName="bugDescription" placeholder="Enter Description"></textarea>
-    </div>
-    <div class="form-group ">
-        <label for="bugPriority">
-            Priority
-            <span *ngIf="reportBugForm.get( 'bugPriority').invalid && reportBugForm.get( 'bugPriority').dirty " class="text-danger ">*</span> 
-        </label>
-        <select name="bugPriority" id="bugPriority" formControlName="bugPriority" class="form-control">
-            <!-- <option *ngFor="let pr of priority" [value]="pr">
-                {​​{​​pr}​​}​​
-            </option> -->
-            <option value="null" disabled>Select an option</option>
-            <option value="1">Minor</option>
-            <option value="2">Major</option>
-            <option value="3">Critical</option>
-        </select>
-    </div>
-    <div class="form-group">
-        <label for="bugReporter">
-            Reporter
-            <span *ngIf="reportBugForm.get( 'bugReporter').invalid && reportBugForm.get( 'bugReporter').dirty " class="text-danger ">*</span> 
-        </label>
-        <select name="bugReporter" id="bugReporter" formControlName="bugReporter" class="form-control">
-            <option [ngValue]="null" disabled>Select an option</option>
-            <option *ngFor="let repVal of reporterValues" [value]="repVal">
-                {{repVal}}
-            </option>
-            <!-- <option value="QA">QA</option>
-            <option value="PO">PO</option>
-            <option value="DEV">DEV</option> -->
-        </select>
-    </div>
-    <div class="form-group">
-        <label for="bugStatus">
-            Status
-            <span *ngIf="reportBugForm.get( 'bugStatus').invalid && reportBugForm.get( 'bugStatus').dirty " class="text-danger ">*</span> 
-        </label>
-        <select name="bugStatus" id="bugStatus" formControlName="bugStatus" class="form-control">
-            <option value="null" disabled>Select an option</option>
-            <option *ngFor="let staVal of statusValues" [value]="staVal">
-                {{staVal}}
-            </option>
-            <!-- <option value="Ready for testing">Ready for testing</option>
-            <option value="Done">Done</option>
-            <option value="Rejected">Rejected</option> -->
-        </select>
-    </div>
-    <div class="d-flex justify-content-end">
-        <button class="btn btn-outline-info" type="submit" *ngIf="!isUpdateForm" [disabled]="reportBugForm.invalid">Submit</button>
-        <button class="btn btn-outline-warning" type="submit" *ngIf="isUpdateForm" [disabled]="reportBugForm.invalid">Update</button>
+                            <input type="text" formControlName="reporter" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Description
+                                <span *ngIf="commentFormGroup.get( 'description').invalid && commentFormGroup.get( 'description').dirty" class="text-danger">*</span> 
+                            </label>
+                            <textarea row="3" class="form-control" formControlName="description"></textarea>
+                        </div>
+                        <div class="d-flex justify-content-end">
+                            <button type="button" class="btn" (click)="appendComment()" [disabled]="commentFormGroup.invalid">
+                                <i class="fa fa-plus fa-2x"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <hr>
+                <!-- Show previous comments -->
+                <div class = "row bug-comments-row">
+                    <div class="card mb-2" *ngFor="let comment of reportBugForm.get('bugComments').controls"  [formGroup]="comment">
+                        <div class="card-body bg-light">
+                            <div class="form-group">
+                                <label>Name</label>
+                                <input type="text" formControlName="reporter" class="form-control" disabled>
+                            </div>
+                            <div class="form-group">
+                                <label>Description</label>
+                                <textarea row="3" class="form-control" formControlName="description" disabled></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+         </div>
     </div>
 </form>
+
 <div class="text-center">
     <div [hidden]="!datasubmitted">
         <i class="fa fa-thumbs-up text-info fa-5x"></i>

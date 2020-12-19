@@ -1,3 +1,4 @@
+import { Comment } from "./comment";
 
 export interface BugInterface {
     id?: string;  
@@ -8,4 +9,5 @@ export interface BugInterface {
     status?: string;
     updatedAt?: string;
     createdAt?: string;
+    comments?: Array<Comment>;
 }
