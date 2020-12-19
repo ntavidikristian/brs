@@ -54,7 +54,7 @@
                     <span *ngIf="reportBugForm.get( 'bugStatus').invalid && reportBugForm.get( 'bugStatus').dirty" class="text-danger">*</span> 
                 </label>
                     <select name="bugStatus" id="bugStatus" formControlName="bugStatus" class="form-control">
-                    <option value="null" disabled>Select an option</option>
+                    <option value="null"[disabled]="reportBugForm.get('bugReporter').value == 'QA'">Select an option</option>
                     <option *ngFor="let staVal of statusValues " [value]="staVal">
                         {{staVal}}
                     </option>
