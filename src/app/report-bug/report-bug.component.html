@@ -1,11 +1,12 @@
 <div [hidden]="hideform">
     <h1 class="display-4 text-center mb-2">Report bug</h1>
 </div>
+
 <form class="mt-2" [formGroup]="reportBugForm" (submit)="onSubmit()" [hidden]="hideform">
-        <div class="row">
-            <div class="col">
-                <div class=" form-group">
-                    <label for="bugTitle ">
+    <div class="row">
+        <div class="col">
+            <div class=" form-group">
+                <label for="bugTitle ">
                     Title 
                 </label>
                     <input type="text" class="form-control" id="bugTitle" formControlName="bugTitle" placeholder="Enter Title">
@@ -69,49 +70,54 @@
                     <button class="btn btn-outline-info" type="submit" *ngIf="!isUpdateForm" [disabled]="reportBugForm.invalid">Submit</button>
                     <button class="btn btn-outline-warning" type="submit" *ngIf="isUpdateForm" [disabled]="reportBugForm.invalid">Update</button>
                 </div>
+
             </div>
-            <!-- add new Comment -->
-            <div class="col" *ngIf="isUpdateForm" style="border-radius: 2em; padding: 2em;"[formGroup]="commentFormGroup">
-                <div class="card mb-2">
-                    <div class="card-body bg-light">
-                        <div class="form-group">
-                            <label>Name
+            <div class="d-flex justify-content-end">
+                <button class="btn btn-outline-info" type="submit" *ngIf="!isUpdateForm" [disabled]="reportBugForm.invalid">Submit</button>
+                <button class="btn btn-outline-warning" type="submit" *ngIf="isUpdateForm" [disabled]="reportBugForm.invalid">Update</button>
+            </div>
+        </div>
+        <!-- add new Comment -->
+        <div class="col" *ngIf="isUpdateForm" style="border-radius: 2em; padding: 2em;" [formGroup]="commentFormGroup">
+            <div class="card mb-2">
+                <div class="card-body bg-light">
+                    <div class="form-group">
+                        <label>Name
                                 <span *ngIf="commentFormGroup.get('reporter').invalid && commentFormGroup.get( 'reporter').dirty" class="text-danger">*</span> 
                             </label>
 
-                            <input type="text" formControlName="reporter" class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <label>Description
+                        <input type="text" formControlName="reporter" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Description
                                 <span *ngIf="commentFormGroup.get( 'description').invalid && commentFormGroup.get( 'description').dirty" class="text-danger">*</span> 
                             </label>
-                            <textarea row="3" class="form-control" formControlName="description"></textarea>
-                        </div>
-                        <div class="d-flex justify-content-end">
-                            <button type="button" class="btn" (click)="appendComment()" [disabled]="commentFormGroup.invalid">
+                        <textarea row="3" class="form-control" formControlName="description"></textarea>
+                    </div>
+                    <div class="d-flex justify-content-end">
+                        <button type="button" class="btn" (click)="appendComment()" [disabled]="commentFormGroup.invalid">
                                 <i class="btn fa fa-plus fa-2x"></i>
                             </button>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <!-- Show previous comments -->
+            <div class="row bug-comments-row">
+                <div class="card mb-2" *ngFor="let comment of reportBugForm.get('bugComments').controls?.reverse()" [formGroup]="comment">
+                    <div class="card-body bg-light">
+                        <div class="form-group">
+                            <label>Name</label>
+                            <input type="text" formControlName="reporter" class="form-control" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label>Description</label>
+                            <textarea row="3" class="form-control" formControlName="description" disabled></textarea>
                         </div>
                     </div>
                 </div>
-
-                <hr>
-                <!-- Show previous comments -->
-                <div class = "row bug-comments-row">
-                    <div class="card mb-2" *ngFor="let comment of reportBugForm.get('bugComments').controls?.reverse()"  [formGroup]="comment">
-                        <div class="card-body bg-light">
-                            <div class="form-group">
-                                <label>Name</label>
-                                <input type="text" formControlName="reporter" class="form-control" disabled>
-                            </div>
-                            <div class="form-group">
-                                <label>Description</label>
-                                <textarea row="3" class="form-control" formControlName="description" disabled></textarea>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-         </div>
+            </div>
+        </div>
     </div>
 </form>
 

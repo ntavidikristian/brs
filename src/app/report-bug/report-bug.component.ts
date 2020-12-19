@@ -11,6 +11,7 @@ import { Comment } from "../comment";
   styleUrls: ['./report-bug.component.scss']
 })
 export class ReportBugComponent implements OnInit {
+
   //flag when looading data from server
   dataloading:boolean = false;
   //flag when data has been submitted to server
@@ -23,6 +24,7 @@ export class ReportBugComponent implements OnInit {
     reporterValues = ['QA', 'PO', 'DEV'];
     statusValues = ['Ready for testing', 'Done', 'Rejected'];
 
+
   constructor(private service: RestService, private router: Router, private activeRoute: ActivatedRoute) { }
 
   reportBugForm: FormGroup = new FormGroup({
@@ -31,6 +33,7 @@ export class ReportBugComponent implements OnInit {
     bugPriority: new FormControl("",[Validators.required]),
     bugReporter: new FormControl("",[Validators.required]),
     bugStatus: new FormControl(""),
+
     bugComments: new FormArray([
       // new FormGroup({
       //   reporter: new FormControl("John Kalimeris"),
@@ -40,18 +43,17 @@ export class ReportBugComponent implements OnInit {
       //   reporter: new FormControl("Thanasis Kalimers"),
       //   description: new FormControl("Axxx kurie mano")
       // })
-    
+
     ])
   });
   private _initialForm = this.reportBugForm.value;
 
 
   commentFormGroup: FormGroup = new FormGroup({
-    reporter: new FormControl(null,[Validators.required]),
+    reporter: new FormControl(null, [Validators.required]),
     description: new FormControl(null, [Validators.required])
-  });
-  
 
+  });
 
   //method that fetches the givved data to template
   private fetchBug(bug :BugInterface){
@@ -85,12 +87,14 @@ export class ReportBugComponent implements OnInit {
     this._initialForm.bugStatus = bug.status;
   }
 
+
   ngOnInit(): void {
-    this.activeRoute.params.subscribe((data)=>{
+    this.activeRoute.params.subscribe((data) => {
       let id = data.id;
       // console.log(id);
-      if( id == undefined){
+      if (id == undefined) {
         // console.log("den exei");
+
       }else{
         this.service.getBugById(id).subscribe((requestedbug)=>{
           // this.reportBugForm.get("bugTitle").setValue(requestedbug.title);
@@ -101,6 +105,7 @@ export class ReportBugComponent implements OnInit {
           this.isUpdateForm = true;
           // this.bugId = requestedbug.id;
           //console.log(requestedbug.comments);
+
           this.fetchBug(requestedbug);
           
           // this._initialForm.bugTitle = requestedbug.title;
@@ -130,9 +135,9 @@ export class ReportBugComponent implements OnInit {
 
     this.reportBugForm.get("bugReporter").statusChanges.subscribe((value) => {
       //console.log(value);
-      if(this.reportBugForm.get("bugReporter").value == 'QA'){
+      if (this.reportBugForm.get("bugReporter").value == 'QA') {
         this.reportBugForm.get("bugStatus").setValidators(Validators.required);
-      }else{
+      } else {
         this.reportBugForm.get("bugStatus").clearValidators();
       }
       this.reportBugForm.get("bugStatus").updateValueAndValidity();
@@ -140,19 +145,22 @@ export class ReportBugComponent implements OnInit {
   }
 
 
+
   onSubmit(){
     if(!this.reportBugForm.valid){
       //console.log('invalid');
     }else{
 
+
       this.dataloading = true;
       this.hideform = true;
-      if(this.isUpdateForm){
+      if (this.isUpdateForm) {
         // sendingBug.id = this.bugId;
         this.service.updateBug(this.generateBug()).subscribe((updatedBug)=>{
           //console.log(data);
           this.fetchInitialBug(updatedBug);
           this.fetchBug(updatedBug);
+
           this.dataloading = false;
           this.datasubmitted = true;
         });
@@ -163,6 +171,7 @@ export class ReportBugComponent implements OnInit {
 
           this.fetchInitialBug(createdBug);
           this.fetchBug(createdBug);
+
           this.dataloading = false;
           this.datasubmitted = true;
           // setTimeout(() => {
@@ -171,33 +180,33 @@ export class ReportBugComponent implements OnInit {
         });
       }
     }
-    
+
   }
 
-  generateBug(): BugInterface{
+  generateBug(): BugInterface {
 
     let values = this.reportBugForm.value;
-    let bug: BugInterface ={
+    let bug: BugInterface = {
       id: this.bugId,
-      title : values.bugTitle,
-      description : values.bugDescription,
-      priority : values.bugPriority,
-      reporter : values.bugReporter,
-      status : values.bugStatus,
+      title: values.bugTitle,
+      description: values.bugDescription,
+      priority: values.bugPriority,
+      reporter: values.bugReporter,
+      status: values.bugStatus,
       comments: values.bugComments
     };
 
      console.log(bug);
     return bug;
   }
-  
-  goMainPage(){
+
+  goMainPage() {
     this.router.navigate(['']);
   }
 
-  appendComment(){
-    //console.log(this.commentFormGroup);
-    
+  appendComment() {
+    console.log(this.commentFormGroup);
+
 
     let comments = this.reportBugForm.get('bugComments') as FormArray;
 
@@ -214,24 +223,25 @@ export class ReportBugComponent implements OnInit {
 
     this.commentFormGroup.get('reporter').reset();
     this.commentFormGroup.get('description').reset();
-    
+
     //update the server
 
-    let bug =this.generateBug();
+    let bug = this.generateBug();
 
-    this.service.updateBug(bug).subscribe((data)=>{
+    this.service.updateBug(bug).subscribe((data) => {
       alert("server updated");
     });
 
   }
-  
-  leavePage(){
+
+  leavePage() {
     // console.log(this._initialForm);
     // console.log(this.reportBugForm.value);
-
     console.log(this.commentFormGroup.get('reporter'));
     console.log(this.commentFormGroup.get('description'));
+
     if(!this.datasubmitted && (this.commentFormGroup.get('reporter').value?.length > 0) || (this.commentFormGroup.get('description').value?.length > 0)) return window.confirm("You haven't submit your comment");
+
     if (this.compare(this._initialForm, this.reportBugForm.value)) return true;
     //console.log(this.commentFormGroup.get('reporter').value.length);
 
@@ -246,7 +256,7 @@ export class ReportBugComponent implements OnInit {
     if (initial.bugPriority != bugform.bugPriority) return false;
     if (initial.bugReporter != bugform.bugReporter) return false;
     if (initial.bugStatus != bugform.bugStatus) return false;
-    return true;      
+    return true;
   }
 
 }
