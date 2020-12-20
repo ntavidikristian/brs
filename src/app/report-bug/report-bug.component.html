@@ -101,7 +101,7 @@
             <hr>
 
             <!-- Show previous comments -->
-            <div class="row outer-comment-row">
+            <div class="row outer-comment-row" *ngIf="reportBugForm.get('bugComments').controls?.length>0">
                 <div class="row bug-comments-row">
 
                     <div class="card mb-2" *ngFor="let comment of reportBugForm.get('bugComments').controls?.reverse()" [formGroup]="comment">
@@ -119,6 +119,14 @@
 
                 </div>
             </div>
+
+            <div class="row " *ngIf="reportBugForm.get('bugComments').controls?.length == 0">
+                <div class="col text-center">
+                    <p>No comments submitted yet.</p>
+                </div>
+            </div>
+
+
         </div>
     </div>
 </form>

@@ -146,6 +146,11 @@ export class BugsListComponent implements OnInit {
   }
 
   deleteRowBug(bugID: string) {
+
+    let confirm = window.confirm('You are about to delete a bug. This action is irreversible. Do you want to proceed?');
+
+    if(!confirm) return;
+
     this.restService.deleteBug(bugID).subscribe((item) => {
       this.getAllBugs();
     });

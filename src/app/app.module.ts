@@ -8,13 +8,15 @@ import { HttpClientModule } from '@angular/common/http';
 import { ReportBugComponent } from './report-bug/report-bug.component';
 import { NavComponent } from './nav/nav.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     BugsListComponent,
     ReportBugComponent,
-    NavComponent
+    NavComponent,
+    PageNotFoundComponent
   ],
   imports: [
     BrowserModule,
