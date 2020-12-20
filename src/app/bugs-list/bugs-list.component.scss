@@ -22,7 +22,7 @@ table {
 
 .container {
     .table-responsive {
-        box-shadow: 0px -1px 10px 8px #00000029;
+        box-shadow: 0 0 7px rgba(0, 0, 0, 0.2);
     }
     .search-form {
         background: #343a40;
@@ -40,7 +40,7 @@ table {
         flex-direction: row;
         justify-content: flex-end;
         .pagination {
-            box-shadow: 8px 4px 10px -1px #00000029;
+            box-shadow: 0 3px 7px -1px rgba(0, 0, 0, 0.2);
         }
     }
 }
@@ -89,7 +89,7 @@ table {
 }
 
 .add-report {
-    background-color: #51b07e;
+    background-color: #519db0;
     color: #fff;
     padding: 10px 22px;
     &:after {
@@ -99,7 +99,7 @@ table {
 }
 
 .btn-search {
-    background-color: #51b07e;
+    background-color: #519db0;
     color: #fff;
     &:after {
         height: 373%;

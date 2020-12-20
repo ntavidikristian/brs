@@ -1,13 +1,171 @@
 form {
-    box-shadow: 0 0 9px 4px #d0cbcb;
+    box-shadow: 0 0 7px rgba(0, 0, 0, 0.2);
     padding: 2em;
     border-radius: 1em;
     max-height: 700px;
-    .row.bug-comments-row {
-        flex-direction: column !important;
-        flex-wrap: nowrap;
-        overflow-y: scroll;
-        max-height: 263px;
-        padding: 11px;
+    background-color: white;
+    label {
+        padding-left: 10px;
     }
+    input[type="text" i],
+    textarea,
+    select {
+        border-radius: 1.25rem;
+    }
+    .add-comment-row {
+        border-radius: 1.25rem;
+        .card-body {
+            border-radius: 1.25rem;
+            .add-comment-btn {
+                padding: 0 !important;
+                .fa-plus {
+                    padding: 0 !important;
+                }
+            }
+        }
+    }
+    .outer-comment-row {
+        box-shadow: inset 0 0 7px rgba(0, 0, 0, 0.2);
+        border-radius: 1.25rem;
+        padding: 5px 0 5px 15px;
+        background: #fafafa;
+        margin: 0 0px 0 2px;
+        .bug-comments-row {
+            flex-direction: column !important;
+            flex-wrap: nowrap;
+            overflow-y: auto;
+            overflow-x: hidden;
+            max-height: 270px;
+            padding: 11px;
+            width: 101%;
+            // box-shadow: inset 0 0 7px rgba(0, 0, 0, 0.2);
+            // border-radius: 1rem;
+            // padding: 5px 15px;
+            .card {
+                border: unset;
+                margin-bottom: 0px !important;
+                background-color: #fff0;
+                &:nth-child(2n) {
+                    input[type="text" i] {
+                        text-align: right;
+                    }
+                    .bug-comment-description {
+                        padding-left: 130px;
+                    }
+                }
+                &:nth-child(2n+1) {
+                    .bug-comment-description {
+                        padding-right: 130px;
+                    }
+                }
+                .card-body {
+                    padding: 0;
+                    label {
+                        display: none;
+                    }
+                    input[type="text" i] {
+                        background: transparent !important;
+                        border: unset;
+                        font-size: 16px;
+                        padding: 0 20px;
+                    }
+                    textarea {
+                        width: 100%;
+                        padding: 10px 10px 0 10px;
+                        border-radius: 1.25rem;
+                        background: #519db033;
+                        min-height: 90px;
+                        overflow-y: auto;
+                        word-wrap: break-word;
+                        height: fit-content;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.btn-submit,
+.btn-update {
+    text-align: center;
+    text-transform: uppercase;
+    outline: none;
+    overflow: hidden;
+    position: relative;
+    border: none;
+    &.activated {
+        span {
+            position: relative;
+            z-index: 1;
+        }
+        &:after {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: #36383969;
+            transition: all 0.5s ease-in-out;
+            transform: translateX(-98%) translateY(-25%) rotate(45deg);
+        }
+        &:hover {
+            &:after {
+                -webkit-transform: translateX(-9%) translateY(-25%) rotate(45deg);
+                transform: translateX(-9%) translateY(-25%) rotate(45deg);
+            }
+        }
+    }
+}
+
+.btn-submit {
+    background: #519db0;
+    color: #ffffff;
+    &:after {
+        height: 373%;
+        width: 288%;
+    }
+}
+
+.btn-update {
+    background: #ff9649cf;
+    color: #fff;
+    &:after {
+        height: 306%;
+        width: 315%;
+    }
+}
+
+.display-4 {
+    margin-bottom: 44px !important;
+}
+
+ ::-webkit-scrollbar {
+    width: 10px;
+}
+
+
+/* Track */
+
+ ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 1rem;
+}
+
+
+/* Handle */
+
+ ::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 1rem;
+}
+
+
+/* Handle on hover */
+
+ ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+[_nghost-ugt-c48] {
+    display: block;
+    height: 100vh !important;
 }

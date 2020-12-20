@@ -1,3 +1,20 @@
-nav {
-    margin-bottom: 100px;
+.container-fluid {
+    background-color: #888888bd !important;
+    nav {
+        margin-bottom: 100px;
+        .navbar-brand {
+            color: #ffffff;
+            &:hover {
+                color: #d7f5fc;
+            }
+        }
+        li {
+            a {
+                color: #ffffff;
+                &:hover {
+                    color: #d7f5fc;
+                }
+            }
+        }
+    }
 }

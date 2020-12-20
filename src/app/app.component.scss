@@ -3,11 +3,20 @@ section {
     margin-bottom: 50px;
 }
 
-body {
-    background: #b7b7b7;
-    height: 100vh;
+:host-context {
+    background: #fafafa !important;
+    height: 150vh !important;
+    padding-bottom: 100px;
+}
+
+:host {
+    display: block;
 }
 
 .container {
     margin-bottom: 10vh;
+}
+
+html {
+    background: #fafafa !important;
 }
