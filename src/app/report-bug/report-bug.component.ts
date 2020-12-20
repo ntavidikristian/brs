@@ -12,22 +12,28 @@ import { Comment } from "../comment";
 })
 export class ReportBugComponent implements OnInit {
 
-  dataloading: boolean = false;
-  datasubmitted: boolean = false;
+  //flag when looading data from server
+  dataloading:boolean = false;
+  //flag when data has been submitted to server
+  datasubmitted: boolean =false;
   hideform: boolean = false;
+  
+  isUpdateForm: boolean = false;
+  bugId: string = null;
+  
+    reporterValues = ['QA', 'PO', 'DEV'];
+    statusValues = ['Ready for testing', 'Done', 'Rejected'];
+
+
   constructor(private service: RestService, private router: Router, private activeRoute: ActivatedRoute) { }
 
-  /*Theloume enan pinaka gia na kanoyme me ngFor ta select */
-  // priorityValues = ['Minor', 'Major', 'Crirical'];
-  reporterValues = ['QA', 'PO', 'DEV'];
-  statusValues = ['Ready for testing', 'Done', 'Rejected'];
-
   reportBugForm: FormGroup = new FormGroup({
-    bugTitle: new FormControl("", [Validators.required]),
-    bugDescription: new FormControl("", [Validators.required]),
-    bugPriority: new FormControl(null, [Validators.required]),
-    bugReporter: new FormControl(null, [Validators.required]),
-    bugStatus: new FormControl(null),
+    bugTitle: new FormControl("",[Validators.required]),
+    bugDescription: new FormControl("",[Validators.required]),
+    bugPriority: new FormControl("",[Validators.required]),
+    bugReporter: new FormControl("",[Validators.required]),
+    bugStatus: new FormControl(""),
+
     bugComments: new FormArray([
       // new FormGroup({
       //   reporter: new FormControl("John Kalimeris"),
@@ -40,8 +46,8 @@ export class ReportBugComponent implements OnInit {
 
     ])
   });
-
   private _initialForm = this.reportBugForm.value;
+
 
   commentFormGroup: FormGroup = new FormGroup({
     reporter: new FormControl(null, [Validators.required]),
@@ -49,8 +55,38 @@ export class ReportBugComponent implements OnInit {
 
   });
 
-  isUpdateForm: boolean = false;
-  bugId: string = null;
+  //method that fetches the givved data to template
+  private fetchBug(bug :BugInterface){
+    console.log(bug);
+    this.reportBugForm.get("bugTitle").setValue(bug.title);
+    this.reportBugForm.get("bugDescription").setValue(bug.description);
+    this.reportBugForm.get("bugPriority").setValue(bug.priority);
+    this.reportBugForm.get("bugReporter").setValue(bug.reporter);
+    this.reportBugForm.get("bugStatus").setValue(bug.status);
+    
+    this.bugId = bug.id;
+
+    let my_array = this.reportBugForm.get('bugComments') as FormArray;
+
+    if(bug.comments){
+      for(let comment of bug.comments){
+        let control = new FormGroup({
+          reporter: new FormControl(comment.reporter),
+          description: new FormControl( comment.description)
+        });
+        my_array.push(control);
+      }
+    }
+  }
+
+  private fetchInitialBug(bug:BugInterface){
+    this._initialForm.bugTitle = bug.title;
+    this._initialForm.bugDescription = bug.description;
+    this._initialForm.bugPriority = bug.priority;
+    this._initialForm.bugReporter = bug.reporter;
+    this._initialForm.bugStatus = bug.status;
+  }
+
 
   ngOnInit(): void {
     this.activeRoute.params.subscribe((data) => {
@@ -58,35 +94,39 @@ export class ReportBugComponent implements OnInit {
       // console.log(id);
       if (id == undefined) {
         // console.log("den exei");
-      } else {
-        this.service.getBugById(id).subscribe((requestedbug) => {
-          this.reportBugForm.get("bugTitle").setValue(requestedbug.title);
-          this.reportBugForm.get("bugDescription").setValue(requestedbug.description);
-          this.reportBugForm.get("bugPriority").setValue(requestedbug.priority);
-          this.reportBugForm.get("bugReporter").setValue(requestedbug.reporter);
-          this.reportBugForm.get("bugStatus").setValue(requestedbug.status);
+
+      }else{
+        this.service.getBugById(id).subscribe((requestedbug)=>{
+          // this.reportBugForm.get("bugTitle").setValue(requestedbug.title);
+          // this.reportBugForm.get("bugDescription").setValue(requestedbug.description);
+          // this.reportBugForm.get("bugPriority").setValue(requestedbug.priority);
+          // this.reportBugForm.get("bugReporter").setValue(requestedbug.reporter);
+          // this.reportBugForm.get("bugStatus").setValue(requestedbug.status);
           this.isUpdateForm = true;
-          this.bugId = requestedbug.id;
+          // this.bugId = requestedbug.id;
           //console.log(requestedbug.comments);
 
-          this._initialForm.bugTitle = requestedbug.title;
-          this._initialForm.bugDescription = requestedbug.description;
-          this._initialForm.bugPriority = requestedbug.priority;
-          this._initialForm.bugReporter = requestedbug.reporter;
-          this._initialForm.bugStatus = requestedbug.status;
+          this.fetchBug(requestedbug);
+          
+          // this._initialForm.bugTitle = requestedbug.title;
+          // this._initialForm.bugDescription = requestedbug.description;
+          // this._initialForm.bugPriority = requestedbug.priority;
+          // this._initialForm.bugReporter = requestedbug.reporter;
+          // this._initialForm.bugStatus = requestedbug.status;
+          this.fetchInitialBug(requestedbug);
 
-          let my_array = this.reportBugForm.get('bugComments') as FormArray;
+          // let my_array = this.reportBugForm.get('bugComments') as FormArray;
 
-          if (requestedbug.comments) {
-            for (let comment of requestedbug.comments) {
-              let control = new FormGroup({
-                reporter: new FormControl(comment.reporter),
-                description: new FormControl(comment.description)
-              });
-              my_array.push(control);
-            }
-          }
-          console.log(my_array);
+          // if(requestedbug.comments){
+          //   for(let comment of requestedbug.comments){
+          //     let control = new FormGroup({
+          //       reporter: new FormControl(comment.reporter),
+          //       description: new FormControl( comment.description)
+          //     });
+          //     my_array.push(control);
+          //   }
+          // }
+          //console.log(my_array);
 
           // console.log(requestedbug);
         });
@@ -105,33 +145,33 @@ export class ReportBugComponent implements OnInit {
   }
 
 
-  onSubmit() {
-    if (!this.reportBugForm.valid) {
-      console.log('invalid');
-    } else {
-      //console.log(this.reportBugForm);
-      // let values = this.reportBugForm.value;
-      // let sendingBug: BugInterface ={
-      //   title : values.bugTitle,
-      //   description : values.bugDescription,
-      //   priority : values.bugPriority,
-      //   reporter : values.bugReporter,
-      //   status : values.bugStatus
-      // };
+
+  onSubmit(){
+    if(!this.reportBugForm.valid){
+      //console.log('invalid');
+    }else{
+
 
       this.dataloading = true;
       this.hideform = true;
       if (this.isUpdateForm) {
         // sendingBug.id = this.bugId;
-        this.service.updateBug(this.generateBug()).subscribe((data) => {
-          console.log(data);
+        this.service.updateBug(this.generateBug()).subscribe((updatedBug)=>{
+          //console.log(data);
+          this.fetchInitialBug(updatedBug);
+          this.fetchBug(updatedBug);
+
           this.dataloading = false;
           this.datasubmitted = true;
         });
 
-      } else {
-        this.service.postBug(this.generateBug()).subscribe((data) => {
-          console.log(data);
+      }else{
+        this.service.postBug(this.generateBug()).subscribe((createdBug)=>{
+          //console.log(data);
+
+          this.fetchInitialBug(createdBug);
+          this.fetchBug(createdBug);
+
           this.dataloading = false;
           this.datasubmitted = true;
           // setTimeout(() => {
@@ -155,7 +195,8 @@ export class ReportBugComponent implements OnInit {
       status: values.bugStatus,
       comments: values.bugComments
     };
-    // console.log(bug);
+
+     console.log(bug);
     return bug;
   }
 
@@ -198,9 +239,13 @@ export class ReportBugComponent implements OnInit {
     // console.log(this.reportBugForm.value);
     console.log(this.commentFormGroup.get('reporter'));
     console.log(this.commentFormGroup.get('description'));
-    if ((this.commentFormGroup.get('reporter').value?.length > 0) || (this.commentFormGroup.get('description').value?.length > 0)) return window.confirm("You haven't submit your comment");
+
+    if(!this.datasubmitted && (this.commentFormGroup.get('reporter').value?.length > 0) || (this.commentFormGroup.get('description').value?.length > 0)) return window.confirm("You haven't submit your comment");
+
     if (this.compare(this._initialForm, this.reportBugForm.value)) return true;
     //console.log(this.commentFormGroup.get('reporter').value.length);
+
+    //TODO
     return window.confirm("Your changes haven't been submitted. Are you sure, you want to leave the page?");
   }
 
