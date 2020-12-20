@@ -144,3 +144,20 @@
     </div>
 </div>
 <!-- {{reportBugForm.value | json}} -->
+
+<ng-template #errorModal let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h2 class="modal-title">Ooops.!</h2>
+        <button class="close">
+            <span>&times;</span>
+        </button>
+    </div>
+    <div class="modal-body"> 
+        <p>Could not load bug from server!</p>        
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-outline-success" (click)="c()">Go mainpage</button>
+        <button class="btn btn-outline-info" (click)="d()">Report New Bug</button>
+    </div>
+
+</ng-template>

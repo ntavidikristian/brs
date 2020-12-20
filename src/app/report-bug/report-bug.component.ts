@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormArray, FormGroupDirective } from "@angular/forms";
 import { ActivatedRoute, Router } from '@angular/router';
 import { BugInterface } from '../bug-interface';
 import { RestService } from '../rest.service';
 import { Comment } from "../comment";
+import { HttpErrorResponse } from '@angular/common/http';
+import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-report-bug',
@@ -21,11 +23,13 @@ export class ReportBugComponent implements OnInit {
   isUpdateForm: boolean = false;
   bugId: string = null;
   
-    reporterValues = ['QA', 'PO', 'DEV'];
-    statusValues = ['Ready for testing', 'Done', 'Rejected'];
+  reporterValues = ['QA', 'PO', 'DEV'];
+  statusValues = ['Ready for testing', 'Done', 'Rejected'];
 
+  @ViewChild('errorModal',{static:false})
+  private errorNgTemplate;
 
-  constructor(private service: RestService, private router: Router, private activeRoute: ActivatedRoute) { }
+  constructor(private service: RestService, private router: Router, private activeRoute: ActivatedRoute, private modal: NgbModal) { }
 
   reportBugForm: FormGroup = new FormGroup({
     bugTitle: new FormControl("",[Validators.required]),
@@ -55,6 +59,11 @@ export class ReportBugComponent implements OnInit {
 
   });
 
+  handleError(errorCode:number){
+
+
+    this.openModal(this.errorNgTemplate);
+  }
   //method that fetches the givved data to template
   private fetchBug(bug :BugInterface){
     console.log(bug);
@@ -129,6 +138,9 @@ export class ReportBugComponent implements OnInit {
           //console.log(my_array);
 
           // console.log(requestedbug);
+        }, error =>{
+          let errorcode = error.status;
+          this.handleError(errorcode);
         });
       }
     });
@@ -257,6 +269,21 @@ export class ReportBugComponent implements OnInit {
     if (initial.bugReporter != bugform.bugReporter) return false;
     if (initial.bugStatus != bugform.bugStatus) return false;
     return true;
+  }
+
+  openModal(content){
+    
+    let modalOptions:NgbModalOptions = {
+      backdrop: 'static',
+      keyboard: false
+    } 
+    this.modal.open(content, modalOptions).result.then(reason=>{
+      //go to main page
+      this.goMainPage();
+    },(reason)=>{
+      //stay on page and report the bug
+      this.router.navigate(['reportbug']);
+    });
   }
 
 }
