@@ -4,9 +4,9 @@
     </div>
 </section>
 
-<form class="mt-2" [formGroup]="reportBugForm" (submit)="onSubmit()" [hidden]="hideform">
-    <div class="row">
-        <div class="col">
+<div class="row" [hidden]="hideform">
+    <div class="col">
+        <form class="mt-2" [formGroup]="reportBugForm" (submit)="onSubmit()">
             <div class=" form-group">
                 <label for="bugTitle ">
                     Title <small>*</small>
@@ -73,63 +73,82 @@
                 <button class="btn btn-update" type="submit" *ngIf="isUpdateForm" [disabled]="reportBugForm.invalid"><span>Update</span></button>
             </div>
             <small>* This field is required</small>
-        </div>
-        <!-- add new Comment -->
-        <div class="col" *ngIf="isUpdateForm" style="border-radius: 2em; padding: 2em;" [formGroup]="commentFormGroup">
-            <div class="card mb-2 add-comment-row">
-                <div class="card-body bg-light">
-                    <div class="form-group">
-                        <label>Name
-                            <span *ngIf="commentFormGroup.get('reporter').invalid && commentFormGroup.get( 'reporter').dirty" class="text-danger">*</span> 
-                        </label>
-                        <input type="text" formControlName="reporter" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <label>Description
-                                <span *ngIf="commentFormGroup.get( 'description').invalid && commentFormGroup.get( 'description').dirty" class="text-danger">*</span> 
-                            </label>
-                        <textarea row="3" class="form-control" formControlName="description"></textarea>
-                    </div>
-                    <div class="d-flex justify-content-end">
-                        <button type="button" class="btn add-comment-btn" (click)="appendComment()" [disabled]="commentFormGroup.invalid">
-                             <i class="btn fa fa-plus fa-2x"></i>
-                        </button>
-                        <!-- <img src="..\assets\img\Add Comment_128728.png" width="30px" heigth="30px"> -->
-                    </div>
+        </form>
+    </div>
+
+
+
+    <!-- add new Comment -->
+    <div class="col-12 col-md-6" *ngIf="isUpdateForm" style="border-radius: 2em; padding: 2em;" [formGroup]="commentFormGroup">
+        <div class="card mb-2 add-comment-row">
+            <div class="card-body bg-light">
+                <h4 class="text-center card-title">Add comment</h4>
+                <div class="form-group">
+                    <label>Reporter <small>*</small>
+                        <span *ngIf="commentFormGroup.get('reporter').invalid && commentFormGroup.get( 'reporter').dirty" class="text-danger">*</span> 
+                    </label>
+                    <input type="text" formControlName="reporter" class="form-control" placeholder="Please enter your name">
                 </div>
+                <div class="form-group">
+                    <label>Description <small>*</small>
+                            <span *ngIf="commentFormGroup.get( 'description').invalid && commentFormGroup.get( 'description').dirty" class="text-danger">*</span> 
+                        </label>
+                    <textarea row="3" class="form-control" formControlName="description" placeholder="Leave your comment"></textarea>
+                </div>
+                <div class="d-flex justify-content-end">
+                    <button type="button" class="btn add-comment-btn" (click)="appendComment()" [disabled]="commentFormGroup.invalid">
+                         <i class="btn fa fa-plus fa-2x"></i>
+                    </button>
+                    <!-- <img src="..\assets\img\Add Comment_128728.png" width="30px" heigth="30px"> -->
+                </div>
+                <small>* This field is required</small>
             </div>
-            <hr>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-auto d-flex align-items-center" *ngIf="submittingComment">
+                <i class="loading-icon"></i>
+                <span class="text-info">Submitting comment</span>
+                
+            </div>
+            <div class="col-auto d-flex align-items-center" *ngIf="commentSubmitted">
+                <i class="fa fa-thumbs-up text-info fa-3x"></i>
+                <span class="text-info">Comment submitted</span>
+            </div>
 
-            <!-- Show previous comments -->
-            <div class="row outer-comment-row" *ngIf="reportBugForm.get('bugComments').controls?.length>0">
-                <div class="row bug-comments-row">
+        </div>
 
-                    <div class="card mb-2" *ngFor="let comment of reportBugForm.get('bugComments').controls?.reverse()" [formGroup]="comment">
-                        <div class="card-body">
-                            <div class="bug-comment-name">
-                                <label>Name</label>
-                                <input type="text" formControlName="reporter" class="form-control" disabled>
-                            </div>
-                            <div class="bug-comment-description">
-                                <label>Description</label>
-                                <textarea row="3" formControlName="description" disabled></textarea>
-                            </div>
+        <hr>
+
+        <h4 class="text-center card-title">Previous Comments</h4>
+        <!-- Show previous comments -->
+        <div class="row outer-comment-row" *ngIf="reportBugForm.get('bugComments').controls?.length>0">
+            <div class="row bug-comments-row">
+                <div class="card mb-2" *ngFor="let comment of reportBugForm.get('bugComments').controls?.reverse()" [formGroup]="comment">
+                    <div class="card-body">
+                        <div class="bug-comment-name">
+                            <label>Name</label>
+                            <input type="text" formControlName="reporter" class="form-control" disabled>
+                        </div>
+                        <div class="bug-comment-description">
+                            <label>Description</label>
+                            <textarea row="3" formControlName="description" disabled></textarea>
                         </div>
                     </div>
-
+                    <hr>
                 </div>
+
             </div>
-
-            <div class="row " *ngIf="reportBugForm.get('bugComments').controls?.length == 0">
-                <div class="col text-center">
-                    <p>No comments submitted yet.</p>
-                </div>
-            </div>
-
-
         </div>
-    </div>
-</form>
+
+        <div class="row " *ngIf="reportBugForm.get('bugComments').controls?.length == 0">
+            <div class="col text-center">
+                <p>No comments submitted yet.</p>
+            </div>
+        </div>
+
+
+    </div>    
+</div>
 
 <div class="text-center">
     <div [hidden]="!datasubmitted">

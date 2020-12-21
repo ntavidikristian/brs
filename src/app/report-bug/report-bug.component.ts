@@ -19,6 +19,8 @@ export class ReportBugComponent implements OnInit {
   //flag when data has been submitted to server
   datasubmitted: boolean =false;
   hideform: boolean = false;
+  submittingComment: boolean = false;
+  commentSubmitted: boolean = false;
   
   isUpdateForm: boolean = false;
   bugId: string = null;
@@ -239,9 +241,17 @@ export class ReportBugComponent implements OnInit {
     //update the server
 
     let bug = this.generateBug();
-
+    this.submittingComment = true;
+    this.commentSubmitted = false;
     this.service.updateBug(bug).subscribe((data) => {
-      alert("server updated");
+      // alert("Your comment was submitted");
+      this.submittingComment = false;
+      this.commentSubmitted = true;
+
+      //hide submitted message after 2s
+      setTimeout(()=>{
+        this.commentSubmitted = false;
+      },2000);
     });
 
   }

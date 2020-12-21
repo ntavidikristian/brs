@@ -83,7 +83,7 @@
                     <td>{{bug.title}}</td>
                     <td>{{bug.priority}}</td>
                     <td>{{bug.reporter}}</td>
-                    <td>{{bug.createdAt | date:'short'}}</td>
+                    <td>{{bug.createdAt | date:'d/M/yy, h:mm a'}}</td>
                     <td>{{bug.status}}</td>
                     <td>
                         <button class="btn btn-warning" [routerLink]="['reportbug',bug.id]"><span>Edit</span></button>

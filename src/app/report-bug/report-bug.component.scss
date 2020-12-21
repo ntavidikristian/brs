@@ -12,73 +12,82 @@ form {
     select {
         border-radius: 1.25rem;
     }
-    .add-comment-row {
+    
+}
+.add-comment-row {
+    label {
+        padding-left: 10px;
+    }
+    input[type="text" i],
+    textarea,
+    select {
         border-radius: 1.25rem;
-        .card-body {
-            border-radius: 1.25rem;
-            .add-comment-btn {
+    }
+    border-radius: 1.25rem;
+    .card-body {
+        border-radius: 1.25rem;
+        .add-comment-btn {
+            padding: 0 !important;
+            .fa-plus {
                 padding: 0 !important;
-                .fa-plus {
-                    padding: 0 !important;
-                }
             }
         }
     }
-    .outer-comment-row {
-        box-shadow: inset 0 0 7px rgba(0, 0, 0, 0.2);
-        border-radius: 1.25rem;
-        padding: 5px 0 5px 15px;
-        background: #fafafa;
-        margin: 0 0px 0 2px;
-        .bug-comments-row {
-            flex-direction: column !important;
-            flex-wrap: nowrap;
-            overflow-y: auto;
-            overflow-x: hidden;
-            max-height: 270px;
-            padding: 11px;
-            width: 101%;
-            // box-shadow: inset 0 0 7px rgba(0, 0, 0, 0.2);
-            // border-radius: 1rem;
-            // padding: 5px 15px;
-            .card {
-                border: unset;
-                margin-bottom: 0px !important;
-                background-color: #fff0;
-                &:nth-child(2n) {
-                    input[type="text" i] {
-                        text-align: right;
-                    }
-                    .bug-comment-description {
-                        padding-left: 130px;
-                    }
+}
+.outer-comment-row {
+    box-shadow: inset 0 0 7px rgba(0, 0, 0, 0.2);
+    border-radius: 1.25rem;
+    padding: 5px 0 5px 15px;
+    background: #fafafa;
+    margin: 0 0px 0 2px;
+    .bug-comments-row {
+        flex-direction: column !important;
+        flex-wrap: nowrap;
+        overflow-y: auto;
+        overflow-x: hidden;
+        max-height: 270px;
+        padding: 11px;
+        width: 101%;
+        // box-shadow: inset 0 0 7px rgba(0, 0, 0, 0.2);
+        // border-radius: 1rem;
+        // padding: 5px 15px;
+        .card {
+            border: unset;
+            margin-bottom: 0px !important;
+            background-color: #fff0;
+            &:nth-child(2n) {
+                input[type="text" i] {
+                    text-align: right;
                 }
-                &:nth-child(2n+1) {
-                    .bug-comment-description {
-                        padding-right: 130px;
-                    }
+                .bug-comment-description {
+                    padding-left: 130px;
                 }
-                .card-body {
-                    padding: 0;
-                    label {
-                        display: none;
-                    }
-                    input[type="text" i] {
-                        background: transparent !important;
-                        border: unset;
-                        font-size: 16px;
-                        padding: 0 20px;
-                    }
-                    textarea {
-                        width: 100%;
-                        padding: 10px 10px 0 10px;
-                        border-radius: 1.25rem;
-                        background: #519db033;
-                        min-height: 90px;
-                        overflow-y: auto;
-                        word-wrap: break-word;
-                        height: fit-content;
-                    }
+            }
+            &:nth-child(2n+1) {
+                .bug-comment-description {
+                    padding-right: 130px;
+                }
+            }
+            .card-body {
+                padding: 0;
+                label {
+                    display: none;
+                }
+                input[type="text" i] {
+                    background: transparent !important;
+                    border: unset;
+                    font-size: 16px;
+                    padding: 0 20px;
+                }
+                textarea {
+                    width: 100%;
+                    padding: 10px 10px 0 10px;
+                    border-radius: 1.25rem;
+                    background: #519db033;
+                    min-height: 90px;
+                    overflow-y: auto;
+                    word-wrap: break-word;
+                    height: fit-content;
                 }
             }
         }
