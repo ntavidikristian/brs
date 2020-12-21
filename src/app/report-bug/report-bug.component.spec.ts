@@ -9,7 +9,7 @@ import {​​​​ RouterTestingModule }​​​​ from "@angular/router/tes
 
 import {​​​​ HttpClientTestingModule }​​​​ from "@angular/common/http/testing";
 
-describe('ReportBugComponent', () => {
+fdescribe('ReportBugComponent', () => {
   let component: ReportBugComponent;
   let fixture: ComponentFixture<ReportBugComponent>;
 
