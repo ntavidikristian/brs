@@ -137,3 +137,9 @@ table {
     background-color: #519db0;
     border-color: #519db0;
 }
+
+#searchTable{
+    th{
+        vertical-align: bottom !important;
+    }
+}
