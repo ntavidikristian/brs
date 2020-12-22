@@ -33,7 +33,7 @@ export class BugsListComponent implements OnInit {
   //valid reporter values (search from)
   reporterValues = ['QA', 'PO', 'DEV'];
   //valid status values (search form)
-  statusValues = ['Ready for Testing', 'Done', 'Rejected'];
+  statusValues = ['Ready for testing', 'Done', 'Rejected'];
   
   // the filter we want the bugs to be ordered by
   private _filterBy = this.filters.createdAt;
