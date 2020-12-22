@@ -143,3 +143,23 @@ table {
         vertical-align: bottom !important;
     }
 }
+@media (max-width:1024px){
+    #searchTable tr {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        th {
+            width: 50%;
+        }
+    }
+}
+@media (max-width:768px){
+    #searchTable tr {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        th {
+            width: 100%;
+        }
+    }
+}
