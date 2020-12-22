@@ -10,18 +10,10 @@ export class RestService {
 
   private endpoint = "https://bug-report-system-server.herokuapp.com/bugs";
   constructor(private http:HttpClient) { }
-
-  //get and object of key values and returs it as a sting of query params
-  getQueryparamsString(attrs):string{
-    return Object.keys(attrs).map((key)=>{
-      return key+"="+attrs[key];
-    }).join('&');
-  }
-
+  
   //get all bugs givven the attibutes 'attrs'
   getAllBugs(attrs):Observable<any>{
-    let query = this.endpoint + '?'+this.getQueryparamsString(attrs);
-    return this.http.get<any>(query, {observe:'response'});
+    return this.http.get<any>(this.endpoint, {observe:'response', params:attrs});
   }
 
   //post a bug to server
